@@ -1,6 +1,22 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "ignoreDeprecations": "5.0",
     "allowJs": true,
     "sourceMap": true,
@@ -10,10 +26,6 @@
         "./src/*"
       ]
     },
-    "lib": [
-      "esnext",
-      "dom"
-    ],
     "types": [
       "@dcloudio/types",
       "miniprogram-api-typings",
@@ -22,19 +34,15 @@
     ],
     "verbatimModuleSyntax": true
   },
-  "vueCompilerOptions": {
-    // experimentalRuntimeMode 已废弃，现调整为 nativeTags，请升级 Volar 插件至最新版本
-    "nativeTags": [
-      "block",
-      "component",
-      "template",
-      "slot"
-    ]
-  },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "unpackage",
+    "dist"
   ]
 }
