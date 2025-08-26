@@ -1,274 +1,473 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { postLoginAPI, postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/api/login'
+<script setup lang="ts"> 
+import { ref, reactive } from 'vue' 
+import { postLoginAPI } from '@/api/login'
 import { useUserStore } from '@/stores'
 import type { LoginParams, LoginResult } from '@/types/global'
-import { onLoad } from '@dcloudio/uni-app'
-import type { UniFormsInstance } from '@uni-helper/uni-ui-types'
 
-//#ifdef MP-WEIXIN
-// 获取 code 登录凭证
-let code = ''
-onLoad(async () => {
-  const res = await wx.login()
-  code = res.code
+// 表单数据
+const form = reactive({
+  phone: '',
+  password: '',
+  code: '',
+  agree: false,
 })
-// 获取用户手机号码
-const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
-  // 获取参数
-  const encryptedData = ev.detail.encryptedData!
-  const iv = ev.detail.iv!
-  // 登录请求
-  const res = await postLoginWxMinAPI({ code, encryptedData, iv })
-  loginSuccess(res.result)
-}
-// 模拟手机号码快捷登录（开发练习）
-const onGetphonenumberSimple = async () => {
-  const res = await postLoginWxMinSimpleAPI('13998672369')
-  loginSuccess(res.result)
-}
-//#endif
 
-// 登录成功封装
+// 输入框是否聚焦
+const isFocus = ref(false)
+
+// 验证码倒计时
+const countdown = ref(0)
+const timer = ref<number | null>(null)
+
+// 加载状态
+const isLoading = ref(false)
+const isSendingCode = ref(false)
+
+// 错误状态
+const errors = ref({
+  phone: '',
+  password: '',
+  code: ''
+})
+
+// 发送验证码
+const sendCode = async () => {
+  if (!form.phone) {
+    uni.showToast({ title: '请输入手机号', icon: 'none' })
+    return
+  }
+  if (isSendingCode.value) return
+
+  try {
+    isSendingCode.value = true
+    // 模拟发送验证码逻辑
+    await new Promise(resolve => setTimeout(resolve, 1000)) // 模拟网络请求
+    uni.showToast({ title: '验证码已发送', icon: 'success' })
+    startCountdown()
+  } catch (error) {
+    uni.showToast({ title: '发送失败，请重试', icon: 'none' })
+  } finally {
+    isSendingCode.value = false
+  }
+}
+
+// 开始倒计时
+const startCountdown = () => {
+  countdown.value = 60
+  timer.value = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer.value!)
+      timer.value = null
+    }
+  }, 1000)
+}
+
+// 表单验证函数
+const validateForm = () => {
+  errors.value = { phone: '', password: '', code: '' }
+  let isValid = true
+
+  // 手机号验证
+  if (!form.phone) {
+    errors.value.phone = '请输入手机号'
+    isValid = false
+  } else if (!/^1[3-9]\d{9}$/.test(form.phone)) {
+    errors.value.phone = '请输入正确的手机号'
+    isValid = false
+  }
+
+  // 密码验证
+  if (!form.password) {
+    errors.value.password = '请输入密码'
+    isValid = false
+  } else if (form.password.length < 6) {
+    errors.value.password = '密码长度至少6位'
+    isValid = false
+  }
+
+  // 验证码验证
+  if (!form.code) {
+    errors.value.code = '请输入验证码'
+    isValid = false
+  } else if (form.code.length !== 6) {
+    errors.value.code = '验证码为6位数字'
+    isValid = false
+  }
+
+  return isValid
+}
+
+// 清除错误
+const clearError = (field: keyof typeof errors.value) => {
+  if (errors.value[field]) {
+    errors.value[field] = ''
+  }
+}
+
+// 登录提交
+const submitForm = async () => {
+  if (!validateForm()) {
+    return
+  }
+  if (!form.agree) {
+    uni.showToast({ title: '请同意用户协议', icon: 'none' })
+    return
+  }
+  if (isLoading.value) return
+
+  try {
+    isLoading.value = true
+    const res = await postLoginAPI({
+      account: form.phone,
+      password: form.password,
+      code: form.code,
+    })
+    loginSuccess(res.result)
+  } catch (error) {
+    uni.showToast({ title: '登录失败，请重试', icon: 'none' })
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// 登录成功处理
 const loginSuccess = (profile: LoginResult) => {
-  // 保存用户信息
   const userStore = useUserStore()
   userStore.setUserInfo(profile)
-  // 成功提示
   uni.showToast({ icon: 'success', title: '登录成功' })
   setTimeout(() => {
-    // 页面跳转
     uni.switchTab({ url: '/pages/my/index' })
   }, 500)
 }
-// 登录表单
-const formRole = ref<UniFormsInstance>()
-const rules = ref<UniHelper.UniFormsRules>({
-  account: {
-    rules: [
-      { required: true, errorMessage: '请输入用户名/手机号码' },
-      {
-        validateFunction: (rule, value, data, callback) => {
-          if (value.length < 5 || value.length > 11) {
-            callback('账号长度只能在5-11个字符之间')
-          }
-          return true
-        },
-      },
-    ],
-  },
-  password: {
-    rules: [
-      { required: true, errorMessage: '请输入密码' },
-      { required: true, errorMessage: '请输入密码' },
-    ],
-  },
-})
-const logoForm = ref<LoginParams>({
-  account: '',
-  password: '',
-})
 
-const submitForm = async () => {
+// 处理注册点击
+const handleRegisterClick = () => {
+  console.log('注册按钮被点击')
   try {
-    await formRole.value?.validate?.()
-    const res = await postLoginAPI(logoForm.value)
-    loginSuccess(res.result)
+    uni.navigateTo({
+      url: '/pages/register/index',
+      fail: (err) => {
+        console.error('导航失败:', err)
+        // 尝试其他导航方式
+        console.log('尝试使用 uni.reLaunch')
+        uni.reLaunch({
+          url: '/pages/register/index',
+          fail: (reLaunchErr) => {
+            console.error('reLaunch 也失败:', reLaunchErr)
+            uni.showToast({ title: '页面跳转失败', icon: 'none' })
+          }
+        })
+      },
+      success: () => {
+        console.log('导航成功')
+      }
+    })
   } catch (error) {
-    // uni.showToast({ icon: 'none', title: '登录失败，请重试' })
+    console.error('注册跳转错误:', error)
+    uni.showToast({ title: '跳转异常', icon: 'none' })
   }
 }
 </script>
 
 <template>
   <view class="viewport">
-    <view class="logo">
-      <image
-        mode="aspectFit"
-        class="logo-img"
-        src="https://p.weizwz.com/weizshop/head_7e96ed14181f6a8e.webp"
-        alt="味值商城"
-      ></image>
+    <!-- 标题区域 -->
+    <view class="title-section">
+      <view class="title-container">
+        <text class="main-title">新疆生产建设兵团</text>
+        <view class="welcome-badge">欢迎登录</view>
+      </view>
+      <text class="sub-title">第五师双河市</text>
     </view>
-    <view class="login">
-      <!-- 网页端表单登录 -->
-      <uni-forms ref="formRole" :modelValue="logoForm" :rules="rules">
-        <uni-forms-item label="" name="account">
-          <uni-easyinput
-            prefixIcon="person"
-            v-model="logoForm.account"
-            trim="both"
-            placeholder="请输入用户名/手机号码"
-          />
-        </uni-forms-item>
-        <uni-forms-item label="" name="password">
-          <uni-easyinput
-            prefixIcon="locked"
-            v-model="logoForm.password"
-            trim="both"
-            type="password"
-            placeholder="请输入密码"
-          />
-        </uni-forms-item>
-      </uni-forms>
-      <button class="button phone" @tap="submitForm">登录</button>
 
-      <!-- 小程序端授权登录 -->
-      //#ifdef MP-WEIXIN
-      <button class="button phone icon-phone" open-type="getPhoneNumber" @getphonenumber="onGetphonenumber">
-        手机号快捷登录
-      </button>
-      <view class="extra">
-        <view class="caption">
-          <view class="txt">其他登录方式</view>
-        </view>
-        <view class="options">
-          <!-- 通用模拟登录 -->
-          <button class="icon" type="submit" @tap="onGetphonenumberSimple">模拟快捷登录</button>
+    <!-- 表单区域 -->
+    <view class="form-section">
+      <!-- 手机号输入框 -->
+      <view class="input-container">
+        <input
+          v-model="form.phone"
+          type="number"
+          placeholder="请输入手机号"
+          class="input-field"
+          @focus="clearError('phone')"
+        />
+        <view class="clear-btn" v-if="form.phone" @click="form.phone = ''">
+          <text class="clear-icon">⊗</text>
         </view>
       </view>
-      //#endif
-      <view class="tips">登录/注册即视为你同意《服务条款》和《味值商城隐私协议》</view>
+
+      <!-- 密码输入框 -->
+      <view class="input-container">
+        <input
+          v-model="form.password"
+          type="password"
+          placeholder="请输入密码"
+          class="input-field password-field"
+          @focus="clearError('password')"
+        />
+        <view class="password-toggle">
+          <text class="eye-icon">👁</text>
+        </view>
+      </view>
+
+      <!-- 验证码输入框 -->
+      <view class="input-container">
+        <input
+          v-model="form.code"
+          type="number"
+          placeholder="请输入手机验证码"
+          class="input-field"
+          @focus="clearError('code')"
+        />
+      </view>
+
+      <!-- 协议勾选 -->
+      <view class="agreement-section">
+        <view class="checkbox-container" @click="form.agree = !form.agree">
+          <view class="checkbox" :class="{ checked: form.agree }">
+            <text v-if="form.agree" class="check-mark">✓</text>
+          </view>
+        </view>
+        <text class="agreement-text">
+          我已阅读并同意
+          <text class="policy-link" @click="uni.navigateTo({ url: '/pages/policy/index' })">
+            《用户隐私政策》
+          </text>
+        </text>
+      </view>
+
+      <!-- 登录按钮 -->
+      <button class="login-button" :disabled="isLoading" @click="submitForm">
+        {{ isLoading ? '登录中...' : '登录' }}
+      </button>
+
+      <!-- 底部链接 -->
+      <view class="footer-links">
+        <text class="forgot-password" @click="uni.navigateTo({ url: '/pages/reset-password' })">
+          忘记密码？
+        </text>
+        <view class="register-section">
+          <text class="no-account">没有账号？</text>
+          <text class="register-link" @click.stop="handleRegisterClick">
+            立即注册 ›
+          </text>
+        </view>
+      </view>
     </view>
+
+    <!-- 底部指示器 -->
+    <view class="bottom-indicator"></view>
   </view>
 </template>
 
 <style lang="scss">
-page {
-  height: 100%;
-}
-
 .viewport {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 20rpx 40rpx;
-  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8F2FF 0%, #F5F7FA 100%);
+  position: relative;
+  overflow: hidden;
 }
-
-.logo {
-  flex: 1;
-  text-align: center;
-  .logo-img {
-    width: 220rpx;
-    height: 220rpx;
-    margin-top: 10vh;
-  }
-}
-
-.login {
-  display: flex;
-  flex-direction: column;
-  height: 60vh;
-  padding: 40rpx 20rpx 20rpx;
-  width: calc(100% - 40rpx);
-  .is-input-border {
-    border-radius: 80rpx;
+/* 标题区域 */
+.title-section {
+  margin-top: 140rpx;
+  padding: 0 40rpx;
+  
+  .title-container {
+    display: flex;
+    align-items: center;
     margin-bottom: 20rpx;
-  }
-  input {
-    height: 80rpx;
-    font-size: 28rpx;
-  }
-
-  .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 80rpx;
-    font-size: 28rpx;
-    border-radius: 72rpx;
-    color: #fff;
-    margin-bottom: 40rpx;
-    .icon {
-      font-size: 40rpx;
-      margin-right: 6rpx;
+    
+    .main-title {
+      font-size: 44rpx;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-right: 20rpx;
     }
-  }
-
-  .phone {
-    background-color: $uni-color-main;
-  }
-
-  .icon-phone {
-    background-color: $uni-color-success;
-  }
-
-  .wechat {
-    background-color: $uni-color-main;
-  }
-
-  .extra {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-bottom: 120rpx;
-    .caption {
-      width: 440rpx;
-      line-height: 1;
-      border-top: 1rpx solid #ddd;
+    
+    .welcome-badge {
+      background: #4A90E2;
+      color: #fff;
       font-size: 26rpx;
-      color: #999;
-      position: relative;
-      .txt {
-        position: absolute;
-        top: -15rpx;
-        width: 40%;
-        left: 30%;
-        text-align: center;
-        background: #fff;
-      }
+      padding: 8rpx 24rpx;
+      border-radius: 30rpx;
+      font-weight: 500;
     }
+  }
+  
+  .sub-title {
+    font-size: 36rpx;
+    color: #333;
+    font-weight: 500;
+  }
+}
 
-    .options {
+/* 表单区域 */
+.form-section {
+  margin-top: 80rpx;
+  padding: 0 40rpx;
+}
+
+/* 输入框样式 */
+.input-container {
+  position: relative;
+  margin-bottom: 30rpx;
+  
+  .input-field {
+    width: 100%;
+    height: 100rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    padding: 0 30rpx;
+    font-size: 32rpx;
+    color: #333;
+    box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.06);
+    border: none;
+    
+    &::placeholder {
+      color: #ccc;
+    }
+    
+    &.password-field {
+      padding-right: 80rpx;
+    }
+  }
+  
+  .clear-btn {
+    position: absolute;
+    right: 30rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .clear-icon {
+      font-size: 32rpx;
+      color: #ccc;
+    }
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 30rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .eye-icon {
+      font-size: 32rpx;
+      color: #ccc;
+    }
+  }
+}
+
+/* 协议区域 */
+.agreement-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+  padding: 0 10rpx;
+  
+  .checkbox-container {
+    margin-right: 20rpx;
+    
+    .checkbox {
+      width: 36rpx;
+      height: 36rpx;
+      border: 3rpx solid #ddd;
+      border-radius: 50%;
       display: flex;
-      justify-content: center;
       align-items: center;
-      margin-top: 70rpx;
-      .icon {
-        border-radius: 50rpx;
-        &::after {
-          display: none;
+      justify-content: center;
+      background: #fff;
+      
+      &.checked {
+        border-color: #4A90E2;
+        background: #4A90E2;
+        
+        .check-mark {
+          color: #fff;
+          font-size: 20rpx;
+          font-weight: bold;
         }
       }
     }
-
-    .icon {
-      font-size: 24rpx;
-      color: #444;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      &::before {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 80rpx;
-        height: 80rpx;
-        margin-bottom: 6rpx;
-        font-size: 40rpx;
-        border: 1rpx solid #444;
-        border-radius: 50%;
-      }
-    }
-    .icon-weixin::before {
-      border-color: $uni-color-main;
-      color: $uni-color-main;
+  }
+  
+  .agreement-text {
+    font-size: 28rpx;
+    color: #666;
+    
+    .policy-link {
+      color: #4A90E2;
     }
   }
 }
 
-.tips {
+/* 登录按钮 */
+.login-button {
+  width: 100%;
+  height: 88rpx;
+  background: #4A90E2;
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  border: none;
+  margin-bottom: 40rpx;
+  
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+/* 底部链接 */
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10rpx;
+  
+  .forgot-password {
+    font-size: 28rpx;
+    color: #999;
+  }
+  
+  .register-section {
+    display: flex;
+    align-items: center;
+    
+    .no-account {
+      font-size: 28rpx;
+      color: #999;
+      margin-right: 10rpx;
+    }
+    
+    .register-link {
+      font-size: 28rpx;
+      color: #4A90E2;
+      font-weight: 500;
+    }
+  }
+}
+
+/* 底部指示器 */
+.bottom-indicator {
   position: absolute;
-  bottom: 80rpx;
-  left: 20rpx;
-  right: 20rpx;
-  font-size: 22rpx;
-  color: #999;
-  text-align: center;
+  bottom: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280rpx;
+  height: 8rpx;
+  background: #000;
+  border-radius: 4rpx;
 }
 </style>
