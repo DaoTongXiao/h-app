@@ -1,0 +1,97 @@
+/* --------------- 公共类名 ------------------ */ 
+// 间距
+.m20 {
+  margin: 20rpx;
+}
+.ml20 {
+  margin-left: 20rpx;
+}
+.mr20 {
+  margin-right: 20rpx;
+}
+.mt20 {
+  margin-top: 20rpx;
+}
+.mb20 {
+  margin-bottom: 20rpx;
+}
+.p20 {
+  padding: 20rpx;
+}
+.pl20 {
+  padding-left: 20rpx;
+}
+.white {
+  color: white;
+}
+// 布局
+.flex,
+.flex-wrap,
+.flex-column,
+.flex-align-center,
+.flex-between {
+  display: flex;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-align-center {
+  align-items: center;
+}
+.flex-between {
+  justify-content: space-between;
+}
+// 文字
+.fold {
+  font-weight: 600;
+}
+.fold4 {
+  font-weight: 400;
+}
+.fold7 {
+  font-weight: 700;
+}
+.fold8 {
+  font-weight: 800;
+}
+// 其他
+.boxSize {
+  box-sizing: border-box;
+}
+
+
+/* 默认按钮 */
+.weiz-btn[type=default] {
+  border-radius: 64rpx;
+  background: $uni-color-main;
+  color: $uni-text-color-inverse;
+  &::after {
+    border: none;
+  }
+  &.weiz-btn-search {
+    height: 48rpx;
+    line-height: 48rpx;
+    margin-right: -8rpx;
+    font-size: 28rpx;
+    font-weight: 400;
+  }
+}
+
+/* 搜索页面样式 修改默认组件 */
+.search-page .uni-easyinput {
+  height: 100%;
+  margin-right: $uni-margin-frame;
+  .uni-easyinput__content {
+    height: 100%;
+    border-radius: 64rpx;
+    .weiz-btn.weiz-btn-search {
+      margin-right: 10rpx;
+    }
+    .uni-easyinput__content-input {
+      font-size: 28rpx;
+    }
+  }
+}
