@@ -42,8 +42,8 @@ module.exports = {
     'vue/no-deprecated-html-element-is': ['off'],
     '@typescript-eslint/no-unused-vars': ['off'],
     // 添加禁止分号的规则
-    'semi': ['error', 'never'],
+    semi: ['error', 'never'],
     // 添加强制使用单引号的规则
-    'quotes': ['error', 'single', { 'avoidEscape': true }]
+    quotes: ['error', 'single', { avoidEscape: true }],
   },
 }
