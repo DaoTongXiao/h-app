@@ -31,8 +31,7 @@
       "miniprogram-api-typings",
       "@uni-helper/uni-app-types",
       "@uni-helper/uni-ui-types"
-    ],
-    "verbatimModuleSyntax": true
+    ]
   },
   "include": [
     "src/**/*.ts",

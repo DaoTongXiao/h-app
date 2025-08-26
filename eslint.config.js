@@ -1,6 +1,8 @@
 import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
+import tsParser from '@typescript-eslint/parser'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 import globals from 'globals'
 
 export default [
@@ -64,6 +66,21 @@ export default [
         Component: 'readonly',
         AnyObject: 'readonly',
       },
+    },
+  },
+
+  // TypeScript 文件专用配置
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      // TypeScript 推荐规则
+      ...tsPlugin.configs.recommended.rules,
     },
   },
 
