@@ -25,9 +25,9 @@
       }
     },
     {
-      "path": "pages/cart/index",
+      "path": "pages/apply/index",
       "style": {
-        "navigationBarTitleText": "购物车"
+        "navigationBarTitleText": "申请调解"
       }
     },
     {
