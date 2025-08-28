@@ -5,9 +5,7 @@
     "autoscan": true,
     "custom": {
       // uni-ui 规则如下配置
-      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-      // 公共组件
-      "^Weiz(.*)": "@/components/Weiz$1/index.vue"
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
     }
   },
   "pages": [
@@ -35,25 +33,6 @@
       "style": {
         "navigationStyle": "custom", // 隐藏默认导航
         "navigationBarTitleText": "我的"
-      }
-    },
-    {
-      "path": "pages/search/index",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "搜索"
-      }
-    },
-    {
-      "path": "pages/hotCategory/index",
-      "style": {
-        "navigationBarTitleText": "特惠推荐"
-      }
-    },
-    {
-      "path": "pages/goods/index",
-      "style": {
-        "navigationBarTitleText": "商品详情"
       }
     },
     {
@@ -102,26 +81,5 @@
         "selectedIconPath": "static/tabs/user_selected.png"
       }
     ]
-  },
-  // 分包
-  "subPackages": [
-    {
-      "root": "pageSubs",
-      "pages": [
-        {
-          "path": "setting/index",
-          "style": {
-            "navigationBarTitleText": "设置中心"
-          }
-        },
-        {
-          "path": "profile/index",
-          "style": {
-            "navigationStyle": "custom", // 隐藏默认导航
-            "navigationBarTitleText": "个人信息"
-          }
-        }
-      ]
-    }
-  ]
+  }
 }

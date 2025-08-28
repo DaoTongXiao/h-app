@@ -55,6 +55,8 @@ export type LoginParams = {
   account: string
   // 密码
   password: string
+  // 验证码（可选）
+  code?: string
 }
 /** 性别 */
 export type Gender = {
