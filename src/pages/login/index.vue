@@ -108,6 +108,7 @@ const clearError = (field: keyof typeof errors.value) => {
 // 登录提交
 const submitForm = async () => {
   if (!validateForm()) {
+    uni.showToast({ title: '表单验证失败', icon: 'none' })
     return
   }
   if (!form.agree) {
@@ -118,13 +119,16 @@ const submitForm = async () => {
 
   try {
     isLoading.value = true
+    console.log('开始登录...')
     const res = await postLoginAPI({
       account: form.phone,
       password: form.password,
       code: form.code,
     })
-    loginSuccess(res.result)
+    console.log('API响应:', res)
+    loginSuccess(res.data)
   } catch (error) {
+    console.error('登录失败:', error)
     uni.showToast({ title: '登录失败，请重试', icon: 'none' })
   } finally {
     isLoading.value = false
@@ -137,7 +141,7 @@ const loginSuccess = (profile: LoginResult) => {
   userStore.setUserInfo(profile)
   uni.showToast({ icon: 'success', title: '登录成功' })
   setTimeout(() => {
-    uni.switchTab({ url: '/pages/my/index' })
+    uni.switchTab({ url: '/pages/home/index' })
   }, 500)
 }
 

@@ -41,34 +41,28 @@ export const postLoginWxMinSimpleAPI = (phoneNumber: string) => {
 /**
  * 网页登录
  */
-
-export const postLoginAPI = (data: LoginParams): Promise<LoginResponse> => {
-  // 开发模式下模拟登录成功
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        code: '200',
-        msg: '登录成功',
-        result: {
-          id: 123,
-          avatar: 'https://example.com/avatar.jpg',
-          account: data.account,
-          nickname: '测试用户',
-          mobile: data.account,
-          token: 'test_token_' + Date.now(),
-        }
-      })
-    }, 800) // 模拟网络延迟
-  })
+export const postLoginAPI = (data: LoginParams) => {
+  // 开发模式下模拟登录成功，返回与http结构一致的数据
+  return (async () => {
+    await new Promise(resolve => setTimeout(resolve, 800)) // 模拟网络延迟
+    return {
+      code: '200',
+      msg: '登录成功',
+      data: {
+        id: 123,
+        avatar: 'https://example.com/avatar.jpg',
+        account: data.account,
+        nickname: '测试用户',
+        mobile: data.account,
+        token: 'test_token_' + Date.now(),
+      }
+    }
+  })()
 
   // 生产环境下的真实API调用（已注释）
   // return http<LoginResult>({
   //   method: 'POST',
-  //   url: '/login/wxMin/simple',
+  //   url: '/login',
   //   data,
-  // }).then((response) => ({
-  //   code: response.data.code || '200',
-  //   msg: response.data.msg || '成功',
-  //   result: response.data.result
-  // }))
+  // })
 }

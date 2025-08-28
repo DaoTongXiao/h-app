@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useUserStore } from '@/stores/modules/user'
 
 // 轮播图数据
 interface Banner {
@@ -29,6 +30,9 @@ interface QuickService {
 
 const activeTab = ref<number>(0)
 const currentBanner = ref<number>(0)
+
+// 获取用户 store
+const userStore = useUserStore()
 
 // 轮播图数据
 const banners = ref<Banner[]>([
@@ -127,6 +131,14 @@ const switchTab = (index: number) => {
 
 onMounted(() => {
   console.log('政务服务应用初始化完成')
+
+  // 检查登录状态，未登录则跳转到登录页
+  if (!userStore.userInfo) {
+    console.log('用户未登录，跳转到登录页')
+    uni.navigateTo({
+      url: '/pages/login/index'
+    })
+  }
 })
 </script>
 
