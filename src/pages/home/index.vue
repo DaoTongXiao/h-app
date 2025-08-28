@@ -100,16 +100,22 @@ const tabBarList = ref([
 
 // 方法
 const handleQuickAccess = (item: QuickService) => {
-  uni.showToast({
-    title: `点击了${item.title}`,
-    icon: 'none'
+  // uni.showToast({
+  //   title: `点击了${item.title}`,
+  //   icon: 'none'
+  // })
+  uni.navigateTo({
+    url: 'pages/apply/index'
   })
 }
 
 const handleService = (item: ServiceItem) => {
-  uni.showToast({
-    title: `点击了${item.title}`,
-    icon: 'none'
+  // uni.showToast({
+  //   title: `点击了${item.title}`,
+  //   icon: 'none'
+  // })
+    uni.navigateTo({
+    url: '/pages/apply/index'
   })
 }
 
