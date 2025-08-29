@@ -85,7 +85,7 @@ const mediationServices = ref<ServiceItem[]>([
 
 // 其他服务数据
 const otherServices = ref<ServiceItem[]>([
-  { id: '1', title: '机动车管理', icon: '🚗', color: '#6B7280' },
+  { id: '1', title: '典型案例', icon: '🚗', color: '#6B7280' },
   { id: '2', title: '法律法规查询', icon: '🔍', color: '#6B7280' },
   { id: '3', title: '调解机构', icon: '👥', color: '#6B7280' },
   { id: '4', title: '调解专家', icon: '👨‍⚖️', color: '#6B7280' }
@@ -105,10 +105,16 @@ const handleQuickAccess = (item: QuickService) => {
   })
 }
 
-const handleService = (item: ServiceItem) => {
-  uni.navigateTo({
-    url: '/pages/apply/index'
-  })
+  const handleService = (item: ServiceItem) => {
+    if(item.title == '典型案例'){
+        uni.navigateTo({
+        url: '/pages/sub-pages/case/index'
+        })
+        return
+    }
+    uni.navigateTo({
+      url: '/pages/apply/index'
+    })
 }
 
 const switchTab = (index: number) => {

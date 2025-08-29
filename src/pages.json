@@ -52,6 +52,12 @@
       "style": {
         "navigationBarTitleText": "事件详情"
       }
+    },
+    {
+      "path": "pages/sub-pages/case/index",
+      "style": {
+        "navigationBarTitleText": "案例详情"
+      }
     }
   ],
   "globalStyle": {
