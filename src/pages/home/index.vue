@@ -117,6 +117,12 @@ const handleQuickAccess = (item: QuickService) => {
         url: '/pages/sub-pages/mechanism/index'
         })
         return
+    } 
+    if(item.title == '法律法规查询'){
+        uni.navigateTo({
+        url: '/pages/sub-pages/publicity/index'
+        })
+        return
     }
     uni.navigateTo({
       url: '/pages/apply/index'

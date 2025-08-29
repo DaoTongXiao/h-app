@@ -1,5 +1,6 @@
 <template>
   <view class="page-container">
+
     <view class="search-bar-container">
       <uni-search-bar
         placeholder="请输入关键词进行搜索"
@@ -10,8 +11,8 @@
       ></uni-search-bar>
     </view>
 
-    <scroll-view scroll-y class="case-list-container">
-      <view v-for="item in caseList" :key="item.id">
+    <scroll-view scroll-y class="list-container">
+      <view v-for="item in serviceList" :key="item.id">
         <CaseItem :case-data="item" />
       </view>
     </scroll-view>
@@ -20,36 +21,38 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+// 导入复用的组件
 import CaseItem from '../components/CaseItem.vue';
-import type { Case } from './types';
+// 导入复用的类型定义
+import type { ServiceItem } from './types';
 
-// 模拟案例数据
-const caseList = ref<Case[]>([
+// 模拟新的“宣传服务”数据
+const serviceList = ref<ServiceItem[]>([
   {
     id: 1,
-    description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png'],
+    description: '国务院关于进一步优化政务服务提升行政效能推动“高效办成一件事”的指导意见',
+    images: ['/static/service-placeholder.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },
   {
     id: 2,
-    description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png', '/static/placeholder.png', '/static/placeholder.png'],
+    description: '国务院关于进一步优化政务服务提升行政效能推动“高效办成一件事”的指导意见',
+    images: ['/static/service-placeholder.png', '/static/service-placeholder.png', '/static/service-placeholder.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },
   {
     id: 3,
-    description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: [], // 没有图片的情况
+    description: '国务院关于进一步优化政务服务提升行政效能推动“高效办成一件事”的指导意见',
+    images: [], // 没有图片
     date: '2024-07-10',
     tag: '邻里关系',
   },
-  {
+    {
     id: 4,
-    description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png', '/static/placeholder.png', '/static/placeholder.png'],
+    description: '国务院关于进一步优化政务服务提升行政效能推动“高效办成一件事”的指导意见',
+    images: ['/static/service-placeholder.png', '/static/service-placeholder.png', '/static/service-placeholder.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },
@@ -62,6 +65,7 @@ const search = (e: any) => {
 </script>
 
 <style lang="scss" scoped>
+/* 样式与第一个页面完全相同，可以直接复制或提取为全局样式 */
 .page-container {
   display: flex;
   flex-direction: column;
@@ -69,12 +73,11 @@ const search = (e: any) => {
   background-color: #ffffff;
 }
 
-/* 自定义导航栏样式 */
 .custom-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 44px 15px 10px 10px; // 适配状态栏高度
+  padding: 44px 15px 10px 10px;
   background-color: #fff;
   border-bottom: 1px solid #f5f5f5;
 
@@ -98,13 +101,11 @@ const search = (e: any) => {
   }
 }
 
-/* 搜索栏容器 */
 .search-bar-container {
   padding: 10px 15px;
 }
 
-/* 列表容器 */
-.case-list-container {
+.list-container {
   flex: 1;
   overflow-y: auto;
 }

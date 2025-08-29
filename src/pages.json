@@ -58,6 +58,12 @@
       "style": {
         "navigationBarTitleText": "机构详情"
       }
+    },
+    {
+      "path": "pages/sub-pages/publicity/index",
+      "style": {
+        "navigationBarTitleText": "宣传服务"
+      }
     }
   ],
   "globalStyle": {
