@@ -157,7 +157,7 @@ onMounted(() => {
               <view class="dot"></view>
               <text class="description">{{ banners[0].description }}</text>
             </view>
-            <text class="arrow">></text>
+            <text class="arrow"></text>
           </view>
           
           <!-- 页面指示器 -->
