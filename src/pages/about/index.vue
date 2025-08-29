@@ -74,7 +74,7 @@ import { ref } from 'vue'
 const user = ref({
   name: '杜欣吉',
   phone: '13000000000',
-  avatarUrl: '/static/avatar.png', // 请替换为您的头像路径
+  avatarUrl: '/static/icons/my/tuxiang.png', // 请替换为您的头像路径
   stats: {
     mediations: 10,
     aids: 10,
@@ -85,19 +85,19 @@ const user = ref({
 
 // 主要功能入口数据
 const primaryActions = ref([
-  { text: '我的调解', icon: '/static/icons/icon-mediation.svg', path: '/pages/mediation/list' },
-  { text: '我的咨询', icon: '/static/icons/icon-consult.svg', path: '/pages/consult/list' },
-  { text: '法律援助', icon: '/static/icons/icon-aid.svg', path: '/pages/aid/list' },
-  { text: '服务评价', icon: '/static/icons/icon-evaluation.svg', path: '/pages/evaluation/list' },
+  { text: '我的调解', icon: '/static/icons/my/1-1.png', path: '/pages/mediation/list' },
+  { text: '我的咨询', icon: '/static/icons/my/1-2.png', path: '/pages/consult/list' },
+  { text: '法律援助', icon: '/static/icons/my/1-3.png', path: '/pages/aid/list' },
+  { text: '服务评价', icon: '/static/icons/my/1-4.png', path: '/pages/evaluation/list' },
 ])
 
 // 其他功能数据
 const otherFunctions = ref([
-  { text: '个人信息', icon: '/static/icons/icon-personal-info.svg', path: '/pages/profile/info' },
-  { text: '实名认证', icon: '/static/icons/icon-auth.svg', path: '/pages/auth/index' },
-  { text: '修改密码', icon: '/static/icons/icon-password.svg', path: '/pages/profile/password' },
-  { text: '操作手册', icon: '/static/icons/icon-manual.svg', path: '/pages/manual/index' },
-  { text: '账号管理', icon: '/static/icons/icon-account.svg', path: '/pages/profile/account' },
+  { text: '个人信息', icon: '/static/icons/my/2-1.png', path: '/pages/profile/info' },
+  { text: '实名认证', icon: '/static/icons/my/2-2.png', path: '/pages/auth/index' },
+  { text: '修改密码', icon: '/static/icons/my/2-3.png', path: '/pages/profile/password' },
+  { text: '操作手册', icon: '/static/icons/my/2-4.png', path: '/pages/manual/index' },
+  { text: '账号管理', icon: '/static/icons/my/2-5.png', path: '/pages/profile/account' },
 ])
 
 // --- 方法 ---
