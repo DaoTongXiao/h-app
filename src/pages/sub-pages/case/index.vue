@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CaseItem from './CaseItem.vue';
-import type { Case } from './types'; // 引入类型定义
+import type { Case } from './types';
 
 // 模拟案例数据
 const caseList = ref<Case[]>([
