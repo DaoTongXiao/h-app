@@ -56,7 +56,7 @@ const mediationServices = ref<ServiceItem[]>([
   { 
     id: '1', 
     title: '调解服务申请', 
-    subtitle: '我是调解有关全流程各类申请', 
+    subtitle: '调解有关各类申请', 
     icon: '📋',
     color: '#3B82F6'
   },
@@ -100,21 +100,13 @@ const tabBarList = ref([
 
 // 方法
 const handleQuickAccess = (item: QuickService) => {
-  // uni.showToast({
-  //   title: `点击了${item.title}`,
-  //   icon: 'none'
-  // })
   uni.navigateTo({
     url: 'pages/apply/index'
   })
 }
 
 const handleService = (item: ServiceItem) => {
-  // uni.showToast({
-  //   title: `点击了${item.title}`,
-  //   icon: 'none'
-  // })
-    uni.navigateTo({
+  uni.navigateTo({
     url: '/pages/apply/index'
   })
 }
@@ -125,7 +117,6 @@ const switchTab = (index: number) => {
     tab.active = i === index
   })
   
-  // 这里可以添加页面跳转逻辑
   if (index === 0) {
     // 首页逻辑
   } else if (index === 1) {
@@ -150,7 +141,7 @@ onMounted(() => {
 
 <template>
   <view class="page">
-    <scroll-view scroll-y class="scroll-view">
+    <scroll-view scroll-y class="scroll-view" enhanced :show-scrollbar="false">
       <!-- 头部轮播区域 -->
       <view class="banner-section">
         <view class="banner-content" :style="{ background: banners[0].bgColor }">
@@ -225,13 +216,14 @@ onMounted(() => {
             @tap="handleService(item)"
           >
             <view class="service-header">
+				<view class="service-content">
+				  <text class="service-title">{{ item.title }}</text>
+				  <text class="service-subtitle">{{ item.subtitle }}</text>
+				</view>
               <view class="service-icon-wrapper">
                 <text class="service-icon">{{ item.icon }}</text>
               </view>
-              <view class="service-content">
-                <text class="service-title">{{ item.title }}</text>
-                <text class="service-subtitle">{{ item.subtitle }}</text>
-              </view>
+  
             </view>
           </view>
         </view>
@@ -264,18 +256,23 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+// 全局样式重置
+* {
+  box-sizing: border-box;
+}
+
 // 根元素
 .page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background-color: #f7f7f8;
 }
 
 // 滚动容器
 .scroll-view {
   flex: 1;
+  height: 100vh;
 }
 
 // 头部轮播区域
@@ -516,6 +513,9 @@ onMounted(() => {
     
     .service-card {
       background: white;
+	  display: flex;
+	  align-items: center;
+	  align-content: center;
       border-radius: 24rpx;
       padding: 32rpx;
       box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
@@ -529,7 +529,6 @@ onMounted(() => {
           padding: 16rpx;
           background: #F9FAFB;
           border-radius: 16rpx;
-          
           .service-icon {
             font-size: 40rpx;
           }
@@ -537,18 +536,17 @@ onMounted(() => {
         
         .service-content {
           flex: 1;
-          
           .service-title {
             display: block;
             color: #1a1a1a;
-            font-size: 28rpx;
+            font-size: 22rpx;
             font-weight: 500;
             margin-bottom: 8rpx;
           }
           
           .service-subtitle {
             color: #6B7280;
-            font-size: 24rpx;
+            font-size: 18rpx;
             line-height: 1.4;
           }
         }
@@ -599,7 +597,7 @@ onMounted(() => {
         .other-title {
           flex: 1;
           color: #1a1a1a;
-          font-size: 28rpx;
+          font-size: 22rpx;
           font-weight: 500;
           margin-left: 24rpx;
         }
@@ -610,6 +608,8 @@ onMounted(() => {
 
 // 底部占位
 .bottom-placeholder {
-  height: 160rpx;
+  height: 10rpx;
+  min-height: 10rpx;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 </style>
