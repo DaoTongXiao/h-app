@@ -46,6 +46,12 @@
       "style": {
         "navigationBarTitleText": "注册"
       }
+    },
+    {
+      "path": "pages/sub-pages/order/detail",
+      "style": {
+        "navigationBarTitleText": "事件详情"
+      }
     }
   ],
   "globalStyle": {

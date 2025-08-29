@@ -113,7 +113,10 @@ const handleMessageClick = (message: MessageItem) => {
       updateCategoryCounts()
     }
   }
-  uni.showToast({ title: `查看消息: ${message.title}`, icon: 'none' })
+  // uni.showToast({ title: `查看消息: ${message.title}`, icon: 'none' })
+  uni.navigateTo({
+    url: '/pages/sub-pages/order/detail'
+  })
 }
 
 const markAllAsRead = () => {
