@@ -111,6 +111,12 @@ const handleQuickAccess = (item: QuickService) => {
         url: '/pages/sub-pages/case/index'
         })
         return
+    } 
+    if(item.title == '调解机构'){
+        uni.navigateTo({
+        url: '/pages/sub-pages/mechanism/index'
+        })
+        return
     }
     uni.navigateTo({
       url: '/pages/apply/index'

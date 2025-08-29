@@ -54,9 +54,9 @@
       }
     },
     {
-      "path": "pages/sub-pages/case/index",
+      "path": "pages/sub-pages/mechanism/index",
       "style": {
-        "navigationBarTitleText": "案例详情"
+        "navigationBarTitleText": "机构详情"
       }
     }
   ],
