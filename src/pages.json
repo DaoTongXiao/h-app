@@ -64,6 +64,12 @@
       "style": {
         "navigationBarTitleText": "宣传服务"
       }
+    },
+    {
+      "path": "pages/sub-pages/resource/index",
+      "style": {
+        "navigationBarTitleText": "调解资源"
+      }
     }
   ],
   "globalStyle": {

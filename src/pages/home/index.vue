@@ -112,9 +112,9 @@ const handleQuickAccess = (item: QuickService) => {
         })
         return
     } 
-    if(item.title == '调解机构'){
+    if(item.title == '调解机构' || item.title == '调解专家'){
         uni.navigateTo({
-        url: '/pages/sub-pages/mechanism/index'
+        url: '/pages/sub-pages/resource/index'
         })
         return
     } 

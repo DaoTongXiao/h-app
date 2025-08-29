@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ExpertItem from './ExpertItem.vue';
+import ExpertItem from '../components/ExpertItem.vue';
 import type { OrganizationDetails, Expert } from './types';
 
 // 模拟机构详情数据
