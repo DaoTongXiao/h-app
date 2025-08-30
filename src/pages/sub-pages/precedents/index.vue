@@ -28,14 +28,14 @@ const caseList = ref<Case[]>([
   {
     id: 1,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png'],
+    images: ['/static/images/case.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },
   {
     id: 2,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png', '/static/placeholder.png', '/static/placeholder.png'],
+    images: ['/static/images/case.png', '/static/images/case.png', '/static/images/case.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },
@@ -49,7 +49,7 @@ const caseList = ref<Case[]>([
   {
     id: 4,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
-    images: ['/static/placeholder.png', '/static/placeholder.png', '/static/placeholder.png'],
+    images: ['/static/images/case.png', '/static/images/case.png', '/static/images/case.png'],
     date: '2024-07-10',
     tag: '邻里关系',
   },

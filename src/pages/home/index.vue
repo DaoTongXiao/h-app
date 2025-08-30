@@ -100,15 +100,27 @@ const tabBarList = ref([
 
 // 方法
 const handleQuickAccess = (item: QuickService) => {
+  if(item.title == '政策查询'){
+	  uni.navigateTo({
+	  	url: '/pages/sub-pages/policy/index'
+	  })
+	  return
+  }
+  if(item.title == '智能咨询'){
+	  uni.navigateTo({
+	  	url: '/pages/sub-pages/chat/index'
+	  })
+	  return
+  }
   uni.navigateTo({
-    url: 'pages/apply/index'
+    url: '/pages/apply/index'
   })
 }
 
   const handleService = (item: ServiceItem) => {
     if(item.title == '典型案例'){
         uni.navigateTo({
-        url: '/pages/sub-pages/case/index'
+        url: '/pages/sub-pages/precedents/index'
         })
         return
     } 
