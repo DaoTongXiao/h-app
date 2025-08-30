@@ -106,6 +106,13 @@
 			"style": {
 				"navigationBarTitleText": "法律援助"
 			}
+		},
+		{
+			"path" : "pages/sub-pages/online/online",
+			"style" : 
+			{
+				"navigationBarTitleText" : "在线调解"
+			}
 		}
 	],
 	"globalStyle": {

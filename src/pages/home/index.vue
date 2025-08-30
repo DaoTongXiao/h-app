@@ -148,6 +148,12 @@ const handleQuickAccess = (item: QuickService) => {
 		})
 		return
 	}
+	if(item.title == '在线调解'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/online/online'
+		})
+		return
+	}
     uni.navigateTo({
       url: '/pages/apply/index'
     })
