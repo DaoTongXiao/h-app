@@ -141,6 +141,12 @@ const handleQuickAccess = (item: QuickService) => {
     })
 }
 
+const handleGuide = () => {
+	uni.navigateTo({
+	url: '/pages/sub-pages/help/help'
+	})
+}
+
 const switchTab = (index: number) => {
   activeTab.value = index
   tabBarList.value.forEach((tab, i) => {
@@ -219,7 +225,7 @@ onMounted(() => {
 
       <!-- 调解帮助引导 -->
       <view class="mediation-guide">
-        <view class="guide-content">
+        <view class="guide-content" @tap="handleGuide">
           <view class="guide-left">
             <view class="guide-header">
               <text class="guide-title">调解帮助引导</text>

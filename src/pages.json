@@ -89,6 +89,13 @@
 			{
 				"navigationBarTitleText" : "智能咨询"
 			}
+		},
+		{
+			"path" : "pages/sub-pages/help/help",
+			"style" : 
+			{
+				"navigationBarTitleText" : "调解帮助引导"
+			}
 		}
 	],
 	"globalStyle": {
