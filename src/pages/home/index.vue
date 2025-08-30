@@ -136,6 +136,18 @@ const handleQuickAccess = (item: QuickService) => {
         })
         return
     }
+	if(item.title == '法律合规申请'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/legal-consultation/index'
+		})
+		return
+	}
+	if(item.title == '法律援助申请'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/law-help/law-help'
+		})
+		return
+	}
     uni.navigateTo({
       url: '/pages/apply/index'
     })
