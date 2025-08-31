@@ -1,5 +1,3 @@
-// types/resource.ts
-
 // 机构列表项
 export interface Organization {
   id: number

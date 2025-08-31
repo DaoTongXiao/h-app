@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from '../types/resource';
+import type { Organization } from '@/types/app';
 
 interface Props {
   organization: Organization;

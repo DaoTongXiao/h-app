@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Expert } from '../types/organization';
+import type { Expert } from '@/types/app';
 
 interface Props {
   expert: Expert;

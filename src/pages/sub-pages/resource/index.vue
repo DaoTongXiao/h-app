@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import OrganizationItem from '../components/OrganizationItem.vue';
-import type { Organization, Expert } from './types';
+import type { Organization, Expert } from '@/types/app';
 
 // --- 数据区 ---
 const activeTab = ref(0);

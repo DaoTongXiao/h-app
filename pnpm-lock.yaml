@@ -93,6 +93,9 @@ importers:
       '@types/node':
         specifier: ^20.10.6
         version: 20.19.11
+      '@uni-helper/plugin-uni':
+        specifier: ^0.1.0
+        version: 0.1.0(@dcloudio/vite-plugin-uni@3.0.0-4070620250821001(postcss@8.5.6)(rollup@4.48.1)(vite@5.2.8(@types/node@20.19.11)(sass@1.91.0)(terser@5.43.1))(vue@3.5.13(typescript@4.9.5)))
       '@uni-helper/uni-app-types':
         specifier: ^0.5.12
         version: 0.5.13(typescript@4.9.5)
@@ -1647,6 +1650,11 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+
+  '@uni-helper/plugin-uni@0.1.0':
+    resolution: {integrity: sha512-hBPUjoQc/SgqKsyGUl0fJiL+dDwLPhf2es1PJdsXcxHyOujoBP2+D4z5ie+Q72wVwKtTsQSP3tSjww/63JRmbA==}
+    peerDependencies:
+      '@dcloudio/vite-plugin-uni': '*'
 
   '@uni-helper/uni-app-types@0.5.13':
     resolution: {integrity: sha512-NIKHv9Zof7sxsznjH+LRB2VM8ncEyfpkwRVLm7u2N1X3e1RFWvABH+bttfu+d8FIP6JzksBNOQwsyZjDnLN0fw==}
@@ -6737,6 +6745,10 @@ snapshots:
       eslint-visitor-keys: 3.4.3
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@uni-helper/plugin-uni@0.1.0(@dcloudio/vite-plugin-uni@3.0.0-4070620250821001(postcss@8.5.6)(rollup@4.48.1)(vite@5.2.8(@types/node@20.19.11)(sass@1.91.0)(terser@5.43.1))(vue@3.5.13(typescript@4.9.5)))':
+    dependencies:
+      '@dcloudio/vite-plugin-uni': 3.0.0-4070620250821001(postcss@8.5.6)(rollup@4.48.1)(vite@5.2.8(@types/node@20.19.11)(sass@1.91.0)(terser@5.43.1))(vue@3.5.13(typescript@4.9.5))
 
   '@uni-helper/uni-app-types@0.5.13(typescript@4.9.5)':
     dependencies:

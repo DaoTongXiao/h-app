@@ -17,7 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -30,7 +30,19 @@
       "@dcloudio/types",
       "miniprogram-api-typings",
       "@uni-helper/uni-app-types",
-      "@uni-helper/uni-ui-types"
+      "@uni-helper/uni-ui-types",
+      "@uni-helper/plugin-uni",
+    ]
+  },
+  "vueCompilerOptions": {
+    "nativeTags": [
+      "block",
+      "component",
+      "template",
+      "slot"
+    ],
+    "plugins": [
+      "@uni-helper/uni-types/volar-plugin"
     ]
   },
   "include": [
