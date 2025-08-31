@@ -1,12 +1,37 @@
+<script setup lang="ts">
+import type { Case } from '../types/case' // 引入类型定义
+
+// 使用 defineProps 定义 props 类型
+interface Props {
+  caseData: Case;
+}
+defineProps<Props>()
+</script>
+
 <template>
   <view class="case-item">
-    <text class="description">{{ caseData.description }}</text>
+    <text class="description">
+      {{ caseData.description }}
+    </text>
 
-    <view v-if="caseData.images && caseData.images.length > 0" class="image-section">
-      <view v-if="caseData.images.length === 1" class="single-image-container">
-        <image :src="caseData.images[0]" class="image single-image" mode="aspectFill" />
+    <view
+      v-if="caseData.images && caseData.images.length > 0"
+      class="image-section"
+    >
+      <view
+        v-if="caseData.images.length === 1"
+        class="single-image-container"
+      >
+        <image
+          :src="caseData.images[0]"
+          class="image single-image"
+          mode="aspectFill"
+        />
       </view>
-      <view v-else class="multi-image-container">
+      <view
+        v-else
+        class="multi-image-container"
+      >
         <image
           v-for="(img, index) in caseData.images"
           :key="index"
@@ -18,21 +43,15 @@
     </view>
 
     <view class="meta-info">
-      <text class="date-text">{{ caseData.date }}</text>
-      <text class="tag">{{ caseData.tag }}</text>
+      <text class="date-text">
+        {{ caseData.date }}
+      </text>
+      <text class="tag">
+        {{ caseData.tag }}
+      </text>
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import type { Case } from '../types/case'; // 引入类型定义
-
-// 使用 defineProps 定义 props 类型
-interface Props {
-  caseData: Case;
-}
-defineProps<Props>();
-</script>
 
 <style lang="scss" scoped>
 .case-item {

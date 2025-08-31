@@ -1,45 +1,5 @@
-<template>
-	<view class="chat-container">
-		<!-- 聊天消息区域 -->
-		<scroll-view class="message-scroll-view" :scroll-y="true" :scroll-top="scrollTop" :scroll-with-animation="true">
-			<view v-for="message in messages" :key="message.id" class="message-item">
-				<!-- 机器人消息 -->
-				<view v-if="message.sender === 'bot'" class="bot-message-row">
-					<image class="avatar" :src="message.avatar" />
-					<view class="message-content">
-						<text class="bot-name">在线纠纷多元化解平台智能机器人为你服务...</text>
-						<view class="message-bubble bot-bubble">
-							<text>{{ message.content }}</text>
-						</view>
-					</view>
-				</view>
-				<!-- 用户消息 -->
-				<view v-else class="user-message-row">
-					<view class="message-bubble user-bubble">
-						<text>{{ message.content }}</text>
-					</view>
-					<image class="avatar" :src="message.avatar" />
-				</view>
-			</view>
-		</scroll-view>
-
-		<!-- 底部输入区域 -->
-		<view class="input-footer">
-			<view class="hot-topics">
-				<text class="hot-topics-label">热门主题:</text>
-				<text v-for="topic in hotTopics" :key="topic" class="topic-tag"
-					@click="selectTopic(topic)">{{ topic }}</text>
-			</view>
-			<view class="input-area">
-				<input class="chat-input" type="text" v-model="inputValue" placeholder="请输入内容" @confirm="sendMessage" />
-				<button class="send-button" @click="sendMessage">发送</button>
-			</view>
-		</view>
-	</view>
-</template>
-
 <script setup lang="ts">
-	import { ref, reactive, nextTick } from 'vue';
+	import { ref, reactive, nextTick } from 'vue'
 
 	// 消息接口定义
 	interface Message {
@@ -49,35 +9,35 @@
 		content : string;
 	}
 
-	const inputValue = ref('');
-	const scrollTop = ref(0);
+	const inputValue = ref('')
+	const scrollTop = ref(0)
 	const messages = reactive<Message[]>([
 		{
 			id: 1,
 			sender: 'bot',
 			avatar: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjMDM5YmU1IiBkPSJNMTEuMjUgNC4yN2E3LjUgNy41IDAgMCAxIDcuNSAzLjIxbDEuOTMyLTEuMTA0QTYuMDMgNi4wMyAwIDAgMSAxMy41IDEuNUgyNGExIDEgMCAwIDEgMSAxdjguNmMwIDMuMS0xLjE2IDUuMy0yLjYyIDYuNDdBNi4yMiA2LjIyIDAgMCAxIDE4IDIxLjg5VjIySDZjMCAuMDctLjAzLjE0LS4wMy4yMWE1LjUgNS41IDAgMSAxIDAtMTAuNDNoNy4yOGEuNSAuNSAwIDAgMCAuNS0uNWEyLjUgMi41IDAgMCAwLTUtMGEuNS41IDAgMCAwIC41LjVoMi4yN2MuOTMgMCAxLjUtMS4wMyAxLjUtMi4yN2E0LjUgNC41IDAgMCAwLTktMGEuNS41IDAgMCAwIC41LjVoMS40MmE0LjQ4IDQuNDggMCAwIDEgMy41OC0yLjAxWiIvPjxwYXRoIGZpbGw9IiM2NGI1ZWYiIGQ9Ik0zIDExLjU3YzAtMS43MyAxLjA4LTMuMjMgMi42Ni0zLjkxYy0xLjU1LS42NC0yLjY2LTIuMDYtMi42Ni0zLjY2YzAgLjA3LS4wMy4xNC0uMDMuMjFBNTUgNS41IDAgMSAxIDMgMTEuNTdaIi8+PC9zdmc+',
-			content: '你好！我是纠纷多元化解平台智能机器人。你想了解的都可以向我提问，我会尽力帮你查找答案！',
-		},
-	]);
+			content: '你好！我是纠纷多元化解平台智能机器人。你想了解的都可以向我提问，我会尽力帮你查找答案！'
+		}
+	])
 
-	const hotTopics = ref(['信访事项', '社会力量', '四书一报告']);
-	const userAvatar = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjOGE4YThhIiBkPSJNMTIgMTJDOS4yNCAxMiA3IDE0LjI0IDcgMTd2Mmgydi0yYzAtMS42NiAxLjM0LTMgMy0zaDMuOThjLjk1IDAgMS44MS4zNCAyLjU0LjkxYTMuNSAzLjUgMCAwIDEgMi4xMyAyLjc1VjE5aDJ2LTIuMDEyQTMuOTkgMy45OSAwIDAgMSAxNy45ODggMTJoLTUuOTg4Wm0wLThhMy41IDMuNSAwIDEgMC0uMDAxIDcgMy41IDMuNSAwIDAgMCAuMDAxLTdaIi8+PC9zdmc+';
+	const hotTopics = ref(['信访事项', '社会力量', '四书一报告'])
+	const userAvatar = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjOGE4YThhIiBkPSJNMTIgMTJDOS4yNCAxMiA3IDE0LjI0IDcgMTd2Mmgydi0yYzAtMS42NiAxLjM0LTMgMy0zaDMuOThjLjk1IDAgMS44MS4zNCAyLjU0LjkxYTMuNSAzLjUgMCAwIDEgMi4xMyAyLjc1VjE5aDJ2LTIuMDEyQTMuOTkgMy45OSAwIDAgMSAxNy45ODggMTJoLTUuOTg4Wm0wLThhMy41IDMuNSAwIDEgMC0uMDAxIDcgMy41IDMuNSAwIDAgMCAuMDAxLTdaIi8+PC9zdmc+'
 
 	// 发送消息
 	const sendMessage = () => {
-		if (inputValue.value.trim() === '') return;
+		if (inputValue.value.trim() === '') return
 
 		// 添加用户消息
 		messages.push({
 			id: Date.now(),
 			sender: 'user',
 			avatar: userAvatar,
-			content: inputValue.value,
-		});
+			content: inputValue.value
+		})
 
-		const userMessage = inputValue.value;
-		inputValue.value = '';
-		scrollToBottom();
+		const userMessage = inputValue.value
+		inputValue.value = ''
+		scrollToBottom()
 
 		// 模拟机器人回复
 		setTimeout(() => {
@@ -85,25 +45,107 @@
 				id: Date.now() + 1,
 				sender: 'bot',
 				avatar: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjMDM5YmU1IiBkPSJNMTEuMjUgNC4yN2E3LjUgNy41IDAgMCAxIDcuNSAzLjIxbDEuOTMyLTEuMTA0QTYuMDMgNi4wMyAwIDAgMSAxMy41IDEuNUgyNGExIDEgMCAwIDEgMSAxdjguNmMwIDMuMS0xLjE2IDUuMy0yLjYyIDYuNDdBNi4yMiA2LjIyIDAgMCAxIDE4IDIxLjg5VjIySDZjMCAuMDctLjAzLjE0LS4wMy4yMWE1LjUgNS41IDAgMSAxIDAtMTAuNDNoNy4yOGEuNSAuNSAwIDAgMCAuNS0uNWEyLjUgMi41IDAgMCAwLTUtMGEuNS41IDAgMCAwIC41LjVoMi4yN2MuOTMgMCAxLjUtMS4wMyAxLjUtMi4yN2E0LjUgNC41IDAgMCAwLTktMGEuNS41IDAgMCAwIC41LjVoMS40MmE0LjQ4IDQuNDggMCAwIDEgMy41OC0yLjAxWiIvPjxwYXRoIGZpbGw9IiM2NGI1ZWYiIGQ9Ik0zIDExLjU3YzAtMS43MyAxLjA4LTMuMjMgMi42Ni0zLjkxYy0xLjU1LS42NC0yLjY2LTIuMDYtMi42Ni0zLjY2YzAgLjA3LS4wMy4xNC0uMDMuMjFBNTUgNS41IDAgMSAxIDMgMTEuNTdaIi8+PC9zdmc+',
-				content: `关于“${userMessage}”的问题，我正在努力查找答案，请稍候...`,
-			});
-			scrollToBottom();
-		}, 1000);
-	};
+				content: `关于“${userMessage}”的问题，我正在努力查找答案，请稍候...`
+			})
+			scrollToBottom()
+		}, 1000)
+	}
 
 	// 选择热门主题
 	const selectTopic = (topic : string) => {
-		inputValue.value = topic;
-	};
+		inputValue.value = topic
+	}
 
 	// 滚动到底部
 	const scrollToBottom = () => {
 		nextTick(() => {
 			// 一个比较大的值，确保能滚动到底部
-			scrollTop.value = messages.length * 300;
-		});
-	};
+			scrollTop.value = messages.length * 300
+		})
+	}
 </script>
+
+<template>
+  <view class="chat-container">
+    <!-- 聊天消息区域 -->
+    <scroll-view
+      class="message-scroll-view"
+      :scroll-y="true"
+      :scroll-top="scrollTop"
+      :scroll-with-animation="true"
+    >
+      <view
+        v-for="message in messages"
+        :key="message.id"
+        class="message-item"
+      >
+        <!-- 机器人消息 -->
+        <view
+          v-if="message.sender === 'bot'"
+          class="bot-message-row"
+        >
+          <image
+            class="avatar"
+            :src="message.avatar"
+          />
+          <view class="message-content">
+            <text class="bot-name">
+              在线纠纷多元化解平台智能机器人为你服务...
+            </text>
+            <view class="message-bubble bot-bubble">
+              <text>{{ message.content }}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 用户消息 -->
+        <view
+          v-else
+          class="user-message-row"
+        >
+          <view class="message-bubble user-bubble">
+            <text>{{ message.content }}</text>
+          </view>
+          <image
+            class="avatar"
+            :src="message.avatar"
+          />
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 底部输入区域 -->
+    <view class="input-footer">
+      <view class="hot-topics">
+        <text class="hot-topics-label">
+          热门主题:
+        </text>
+        <text
+          v-for="topic in hotTopics"
+          :key="topic"
+          class="topic-tag"
+          @click="selectTopic(topic)"
+        >
+          {{ topic }}
+        </text>
+      </view>
+      <view class="input-area">
+        <input
+          v-model="inputValue"
+          class="chat-input"
+          type="text"
+          placeholder="请输入内容"
+          @confirm="sendMessage"
+        >
+        <button
+          class="send-button"
+          @click="sendMessage"
+        >
+          发送
+        </button>
+      </view>
+    </view>
+  </view>
+</template>
 
 <style scoped>
 	/* 整体容器 */

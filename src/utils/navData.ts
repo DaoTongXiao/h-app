@@ -16,6 +16,6 @@ export const navData = () => {
     ...menuButtonInfo,
     top,
     marginRight,
-    marginBottom: 10,
+    marginBottom: 10
   }
 }

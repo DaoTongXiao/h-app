@@ -1,72 +1,3 @@
-<template>
-  <view class="profile-page">
-    <scroll-view scroll-y class="scroll-container">
-      <view class="profile-header">
-        <view class="header-bg"></view>
-        <view class="header-content">
-          <view class="user-info">
-            <text class="user-name">{{ user.name }}</text>
-            <text class="user-phone">电话: {{ user.phone }}</text>
-          </view>
-          <view class="avatar-section">
-            <image class="avatar-image" :src="user.avatarUrl" mode="aspectFill"></image>
-            <view class="edit-icon">
-              <uni-icons type="compose" size="14" color="#fff"></uni-icons>
-            </view>
-          </view>
-        </view>
-        <view class="stats-block">
-          <view class="stat-item">
-            <text class="stat-value">{{ user.stats.mediations }}件</text>
-            <text class="stat-label">我的调解</text>
-          </view>
-          <view class="stat-item">
-            <text class="stat-value">{{ user.stats.aids }}件</text>
-            <text class="stat-label">我的援助</text>
-          </view>
-          <view class="stat-item">
-            <text class="stat-value">{{ user.stats.consults }}次</text>
-            <text class="stat-label">我的咨询</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="in-progress-card" @tap="navigateTo('/pages/cases/index')">
-        <text class="card-text">正在进行中的案件——{{ user.inProgressCases }}件</text>
-        <view class="card-button">
-          <text>立即查看</text>
-        </view>
-      </view>
-
-      <view class="action-card">
-        <view class="action-grid">
-          <view class="action-item" v-for="action in primaryActions" :key="action.text" @tap="handleActionClick(action)">
-            <image class="action-icon" :src="action.icon" mode="aspectFit"></image>
-            <text class="action-text">{{ action.text }}</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="other-functions-section">
-        <text class="section-title">其他功能</text>
-        <view class="action-card">
-          <view class="action-grid">
-            <view class="action-item" v-for="action in otherFunctions" :key="action.text" @tap="handleActionClick(action)">
-              <image class="action-icon" :src="action.icon" mode="aspectFit"></image>
-              <text class="action-text">{{ action.text }}</text>
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <view class="logout-btn-wrapper">
-        <button class="logout-btn" @tap="logout">退出</button>
-      </view>
-
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 
@@ -78,9 +9,9 @@ const user = ref({
   stats: {
     mediations: 10,
     aids: 10,
-    consults: 10,
+    consults: 10
   },
-  inProgressCases: 4,
+  inProgressCases: 4
 })
 
 // 主要功能入口数据
@@ -88,7 +19,7 @@ const primaryActions = ref([
   { text: '我的调解', icon: '/static/icons/my/1-1.png', path: '/pages/mediation/list' },
   { text: '我的咨询', icon: '/static/icons/my/1-2.png', path: '/pages/consult/list' },
   { text: '法律援助', icon: '/static/icons/my/1-3.png', path: '/pages/aid/list' },
-  { text: '服务评价', icon: '/static/icons/my/1-4.png', path: '/pages/evaluation/list' },
+  { text: '服务评价', icon: '/static/icons/my/1-4.png', path: '/pages/evaluation/list' }
 ])
 
 // 其他功能数据
@@ -97,7 +28,7 @@ const otherFunctions = ref([
   { text: '实名认证', icon: '/static/icons/my/2-2.png', path: '/pages/auth/index' },
   { text: '修改密码', icon: '/static/icons/my/2-3.png', path: '/pages/profile/password' },
   { text: '操作手册', icon: '/static/icons/my/2-4.png', path: '/pages/manual/index' },
-  { text: '账号管理', icon: '/static/icons/my/2-5.png', path: '/pages/profile/account' },
+  { text: '账号管理', icon: '/static/icons/my/2-5.png', path: '/pages/profile/account' }
 ])
 
 // --- 方法 ---
@@ -111,7 +42,7 @@ const navigateTo = (url: string) => {
 const handleActionClick = (action: { text: string; path: string }) => {
   uni.showToast({
     title: `点击了 "${action.text}"`,
-    icon: 'none',
+    icon: 'none'
   })
   // navigateTo(action.path) // 在实际项目中取消此行注释
 }
@@ -127,10 +58,139 @@ const logout = () => {
         // 在此执行退出登录的逻辑
         uni.showToast({ title: '已退出登录', icon: 'success' })
       }
-    },
+    }
   })
 }
 </script>
+
+<template>
+  <view class="profile-page">
+    <scroll-view
+      scroll-y
+      class="scroll-container"
+    >
+      <view class="profile-header">
+        <view class="header-bg" />
+        <view class="header-content">
+          <view class="user-info">
+            <text class="user-name">
+              {{ user.name }}
+            </text>
+            <text class="user-phone">
+              电话: {{ user.phone }}
+            </text>
+          </view>
+          <view class="avatar-section">
+            <image
+              class="avatar-image"
+              :src="user.avatarUrl"
+              mode="aspectFill"
+            />
+            <view class="edit-icon">
+              <uni-icons
+                type="compose"
+                size="14"
+                color="#fff"
+              />
+            </view>
+          </view>
+        </view>
+        <view class="stats-block">
+          <view class="stat-item">
+            <text class="stat-value">
+              {{ user.stats.mediations }}件
+            </text>
+            <text class="stat-label">
+              我的调解
+            </text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-value">
+              {{ user.stats.aids }}件
+            </text>
+            <text class="stat-label">
+              我的援助
+            </text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-value">
+              {{ user.stats.consults }}次
+            </text>
+            <text class="stat-label">
+              我的咨询
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view
+        class="in-progress-card"
+        @tap="navigateTo('/pages/cases/index')"
+      >
+        <text class="card-text">
+          正在进行中的案件——{{ user.inProgressCases }}件
+        </text>
+        <view class="card-button">
+          <text>立即查看</text>
+        </view>
+      </view>
+
+      <view class="action-card">
+        <view class="action-grid">
+          <view
+            v-for="action in primaryActions"
+            :key="action.text"
+            class="action-item"
+            @tap="handleActionClick(action)"
+          >
+            <image
+              class="action-icon"
+              :src="action.icon"
+              mode="aspectFit"
+            />
+            <text class="action-text">
+              {{ action.text }}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="other-functions-section">
+        <text class="section-title">
+          其他功能
+        </text>
+        <view class="action-card">
+          <view class="action-grid">
+            <view
+              v-for="action in otherFunctions"
+              :key="action.text"
+              class="action-item"
+              @tap="handleActionClick(action)"
+            >
+              <image
+                class="action-icon"
+                :src="action.icon"
+                mode="aspectFit"
+              />
+              <text class="action-text">
+                {{ action.text }}
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="logout-btn-wrapper">
+        <button
+          class="logout-btn"
+          @tap="logout"
+        >
+          退出
+        </button>
+      </view>
+    </scroll-view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 // 页面整体背景

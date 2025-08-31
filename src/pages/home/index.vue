@@ -195,37 +195,53 @@ onMounted(() => {
 
 <template>
   <view class="page">
-    <scroll-view scroll-y class="scroll-view" enhanced :show-scrollbar="false">
+    <scroll-view
+      scroll-y
+      class="scroll-view"
+      enhanced
+      :show-scrollbar="false"
+    >
       <!-- 头部轮播区域 -->
       <view class="banner-section">
-        <view class="banner-content" :style="{ background: banners[0].bgColor }">
+        <view
+          class="banner-content"
+          :style="{ background: banners[0].bgColor }"
+        >
           <view class="banner-header">
             <view class="banner-title">
-              <text class="title">{{ banners[0].title }}</text>
-              <text class="subtitle">{{ banners[0].subtitle }}</text>
+              <text class="title">
+                {{ banners[0].title }}
+              </text>
+              <text class="subtitle">
+                {{ banners[0].subtitle }}
+              </text>
             </view>
           </view>
           
           <view class="banner-info">
             <view class="info-content">
-              <view class="dot"></view>
-              <text class="description">{{ banners[0].description }}</text>
+              <view class="dot" />
+              <text class="description">
+                {{ banners[0].description }}
+              </text>
             </view>
-            <text class="arrow"></text>
+            <text class="arrow" />
           </view>
           
           <!-- 页面指示器 -->
           <view class="indicator">
-            <view class="dot active"></view>
-            <view class="dot"></view>
-            <view class="dot"></view>
+            <view class="dot active" />
+            <view class="dot" />
+            <view class="dot" />
           </view>
         </view>
       </view>
 
       <!-- 快捷入口 -->
       <view class="quick-access-card">
-        <text class="section-title">咨询服务</text>
+        <text class="section-title">
+          咨询服务
+        </text>
         <view class="quick-grid">
           <view 
             v-for="item in quickAccess" 
@@ -233,35 +249,55 @@ onMounted(() => {
             class="quick-item"
             @tap="handleQuickAccess(item)"
           >
-            <view class="quick-icon" :style="{ backgroundColor: item.color }">
-              <text class="icon-text">{{ item.icon }}</text>
+            <view
+              class="quick-icon"
+              :style="{ backgroundColor: item.color }"
+            >
+              <text class="icon-text">
+                {{ item.icon }}
+              </text>
             </view>
-            <text class="quick-title">{{ item.title }}</text>
+            <text class="quick-title">
+              {{ item.title }}
+            </text>
           </view>
         </view>
       </view>
 
       <!-- 调解帮助引导 -->
       <view class="mediation-guide">
-        <view class="guide-content" @tap="handleGuide">
+        <view
+          class="guide-content"
+          @tap="handleGuide"
+        >
           <view class="guide-left">
             <view class="guide-header">
-              <text class="guide-title">调解帮助引导</text>
+              <text class="guide-title">
+                调解帮助引导
+              </text>
               <view class="beta-tag">
-                <text class="beta-text">BETA</text>
+                <text class="beta-text">
+                  BETA
+                </text>
               </view>
             </view>
-            <text class="guide-subtitle">调解服务</text>
+            <text class="guide-subtitle">
+              调解服务
+            </text>
           </view>
           <view class="guide-icon">
-            <text class="icon">💬</text>
+            <text class="icon">
+              💬
+            </text>
           </view>
         </view>
       </view>
 
       <!-- 调解服务网格 -->
       <view class="service-section">
-        <text class="section-title">调解服务</text>
+        <text class="section-title">
+          调解服务
+        </text>
         <view class="service-grid">
           <view 
             v-for="item in mediationServices" 
@@ -270,14 +306,19 @@ onMounted(() => {
             @tap="handleService(item)"
           >
             <view class="service-header">
-				<view class="service-content">
-				  <text class="service-title">{{ item.title }}</text>
-				  <text class="service-subtitle">{{ item.subtitle }}</text>
-				</view>
-              <view class="service-icon-wrapper">
-                <text class="service-icon">{{ item.icon }}</text>
+              <view class="service-content">
+                <text class="service-title">
+                  {{ item.title }}
+                </text>
+                <text class="service-subtitle">
+                  {{ item.subtitle }}
+                </text>
               </view>
-  
+              <view class="service-icon-wrapper">
+                <text class="service-icon">
+                  {{ item.icon }}
+                </text>
+              </view>
             </view>
           </view>
         </view>
@@ -285,7 +326,9 @@ onMounted(() => {
 
       <!-- 其他服务 -->
       <view class="other-section">
-        <text class="section-title">其他服务</text>
+        <text class="section-title">
+          其他服务
+        </text>
         <view class="other-grid">
           <view 
             v-for="item in otherServices" 
@@ -295,16 +338,20 @@ onMounted(() => {
           >
             <view class="other-content">
               <view class="other-icon-wrapper">
-                <text class="other-icon">{{ item.icon }}</text>
+                <text class="other-icon">
+                  {{ item.icon }}
+                </text>
               </view>
-              <text class="other-title">{{ item.title }}</text>
+              <text class="other-title">
+                {{ item.title }}
+              </text>
             </view>
           </view>
         </view>
       </view>
 
       <!-- 底部占位 -->
-      <view class="bottom-placeholder"></view>
+      <view class="bottom-placeholder" />
     </scroll-view>
   </view>
 </template>

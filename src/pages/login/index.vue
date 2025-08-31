@@ -9,7 +9,7 @@ const form = reactive({
   phone: '',
   password: '',
   code: '',
-  agree: false,
+  agree: false
 })
 
 // 输入框是否聚焦
@@ -123,7 +123,7 @@ const submitForm = async () => {
     const res = await postLoginAPI({
       account: form.phone,
       password: form.password,
-      code: form.code,
+      code: form.code
     })
     console.log('API响应:', res)
     loginSuccess(res.data)
@@ -179,10 +179,16 @@ const handleRegisterClick = () => {
     <!-- 标题区域 -->
     <view class="title-section">
       <view class="title-container">
-        <text class="main-title">新疆生产建设兵团</text>
-        <view class="welcome-badge">欢迎登录</view>
+        <text class="main-title">
+          新疆生产建设兵团
+        </text>
+        <view class="welcome-badge">
+          欢迎登录
+        </view>
       </view>
-      <text class="sub-title">第五师双河市</text>
+      <text class="sub-title">
+        第五师双河市
+      </text>
     </view>
 
     <!-- 表单区域 -->
@@ -195,9 +201,15 @@ const handleRegisterClick = () => {
           placeholder="请输入手机号"
           class="input-field"
           @focus="clearError('phone')"
-        />
-        <view class="clear-btn" v-if="form.phone" @click="form.phone = ''">
-          <text class="clear-icon">⊗</text>
+        >
+        <view
+          v-if="form.phone"
+          class="clear-btn"
+          @click="form.phone = ''"
+        >
+          <text class="clear-icon">
+            ⊗
+          </text>
         </view>
       </view>
 
@@ -209,9 +221,11 @@ const handleRegisterClick = () => {
           placeholder="请输入密码"
           class="input-field password-field"
           @focus="clearError('password')"
-        />
+        >
         <view class="password-toggle">
-          <text class="eye-icon">👁</text>
+          <text class="eye-icon">
+            👁
+          </text>
         </view>
       </view>
 
@@ -223,37 +237,63 @@ const handleRegisterClick = () => {
           placeholder="请输入手机验证码"
           class="input-field"
           @focus="clearError('code')"
-        />
+        >
       </view>
 
       <!-- 协议勾选 -->
       <view class="agreement-section">
-        <view class="checkbox-container" @click="form.agree = !form.agree">
-          <view class="checkbox" :class="{ checked: form.agree }">
-            <text v-if="form.agree" class="check-mark">✓</text>
+        <view
+          class="checkbox-container"
+          @click="form.agree = !form.agree"
+        >
+          <view
+            class="checkbox"
+            :class="{ checked: form.agree }"
+          >
+            <text
+              v-if="form.agree"
+              class="check-mark"
+            >
+              ✓
+            </text>
           </view>
         </view>
         <text class="agreement-text">
           我已阅读并同意
-          <text class="policy-link" @click="uni.navigateTo({ url: '/pages/policy/index' })">
+          <text
+            class="policy-link"
+            @click="uni.navigateTo({ url: '/pages/policy/index' })"
+          >
             《用户隐私政策》
           </text>
         </text>
       </view>
 
       <!-- 登录按钮 -->
-      <button class="login-button" :disabled="isLoading" @click="submitForm">
+      <button
+        class="login-button"
+        :disabled="isLoading"
+        @click="submitForm"
+      >
         {{ isLoading ? '登录中...' : '登录' }}
       </button>
 
       <!-- 底部链接 -->
       <view class="footer-links">
-        <text class="forgot-password" @click="uni.navigateTo({ url: '/pages/reset-password' })">
+        <text
+          class="forgot-password"
+          @click="uni.navigateTo({ url: '/pages/reset-password' })"
+        >
           忘记密码？
         </text>
         <view class="register-section">
-          <text class="no-account">没有账号？</text>
-          <text class="register-link" @click.stop="handleRegisterClick">
+          <text class="no-account">
+            没有账号？
+          </text>
+          <text
+            class="register-link"
+            @click.stop="handleRegisterClick"
+          >
             立即注册 ›
           </text>
         </view>
@@ -261,7 +301,7 @@ const handleRegisterClick = () => {
     </view>
 
     <!-- 底部指示器 -->
-    <view class="bottom-indicator"></view>
+    <view class="bottom-indicator" />
   </view>
 </template>
 

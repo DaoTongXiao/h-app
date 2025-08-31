@@ -1,55 +1,7 @@
-<template>
-  <view class="page-container">
-   <view class="header-section">
-      <view class="header-icon-wrapper">
-        <uni-icons type="list" size="30" color="#409eff"></uni-icons>
-      </view>
-      <view class="header-info">
-        <text class="org-name">{{ orgDetails.name }}</text>
-        <text class="member-tag">{{ orgDetails.memberCount }}人</text>
-      </view>
-    </view>
-
-    <view class="info-card">
-      <view class="card-title">机构信息</view>
-      <view class="info-list">
-        <view class="info-row">
-          <text class="info-label">联系地址</text>
-          <text class="info-value link">{{ orgDetails.address }}</text>
-        </view>
-        <view class="info-row">
-          <text class="info-label">负责人</text>
-          <text class="info-value">{{ orgDetails.personInCharge }}</text>
-        </view>
-        <view class="info-row" @tap="callPhone(orgDetails.phone)">
-          <text class="info-label">联系电话</text>
-          <view class="phone-value">
-            <text class="info-value link">{{ orgDetails.phone }}</text>
-            <uni-icons type="phone-filled" size="18" color="#409eff"></uni-icons>
-          </view>
-        </view>
-        <view class="info-row">
-          <text class="info-label">成立日期</text>
-          <text class="info-value">{{ orgDetails.establishmentDate }}</text>
-        </view>
-        <view class="info-row">
-          <text class="info-label">机构简介</text>
-          <text class="info-value">{{ orgDetails.description }}</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="info-card">
-      <view class="card-title">调解专家</view>
-      <ExpertItem v-for="expert in expertList" :key="expert.id" :expert="expert" />
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue';
-import ExpertItem from '../components/ExpertItem.vue';
-import type { OrganizationDetails, Expert } from './types';
+import { ref } from 'vue'
+import ExpertItem from '../components/ExpertItem.vue'
+import type { OrganizationDetails, Expert } from '@/types/app'
 
 // 模拟机构详情数据
 const orgDetails = ref<OrganizationDetails>({
@@ -59,8 +11,8 @@ const orgDetails = ref<OrganizationDetails>({
   personInCharge: '李锡江',
   phone: '13779015989',
   establishmentDate: '1986-01-01',
-  description: '值班法律服务人员应就群众提出的法律难题加以解决',
-});
+  description: '值班法律服务人员应就群众提出的法律难题加以解决'
+})
 
 // 模拟专家列表数据
 const expertList = ref<Expert[]>([
@@ -68,36 +20,127 @@ const expertList = ref<Expert[]>([
     id: 1,
     name: '席婉红',
     avatar: '/static/avatar-male-1.png',
-    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等',
+    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等'
   },
   {
     id: 2,
     name: '席婉红',
     avatar: '/static/avatar-male-2.png',
-    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等',
+    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等'
   },
   {
     id: 3,
     name: '席婉红',
     avatar: '/static/avatar-female-1.png',
-    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等',
-  },
-]);
+    specialty: '继承纠纷、生产经营、纠纷赔偿纠纷 纠纷赔偿纠纷等'
+  }
+])
 
 // 拨打电话方法
 const callPhone = (phoneNumber: string) => {
   uni.makePhoneCall({
     phoneNumber: phoneNumber,
     fail: (err) => {
-      console.error('API 调用失败', err);
+      console.error('API 调用失败', err)
       uni.showToast({
         title: '拨号功能不可用',
         icon: 'none'
       })
     }
-  });
-};
+  })
+}
 </script>
+
+<template>
+  <view class="page-container">
+    <view class="header-section">
+      <view class="header-icon-wrapper">
+        <uni-icons
+          type="list"
+          size="30"
+          color="#409eff"
+        />
+      </view>
+      <view class="header-info">
+        <text class="org-name">
+          {{ orgDetails.name }}
+        </text>
+        <text class="member-tag">
+          {{ orgDetails.memberCount }}人
+        </text>
+      </view>
+    </view>
+
+    <view class="info-card">
+      <view class="card-title">
+        机构信息
+      </view>
+      <view class="info-list">
+        <view class="info-row">
+          <text class="info-label">
+            联系地址
+          </text>
+          <text class="info-value link">
+            {{ orgDetails.address }}
+          </text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">
+            负责人
+          </text>
+          <text class="info-value">
+            {{ orgDetails.personInCharge }}
+          </text>
+        </view>
+        <view
+          class="info-row"
+          @tap="callPhone(orgDetails.phone)"
+        >
+          <text class="info-label">
+            联系电话
+          </text>
+          <view class="phone-value">
+            <text class="info-value link">
+              {{ orgDetails.phone }}
+            </text>
+            <uni-icons
+              type="phone-filled"
+              size="18"
+              color="#409eff"
+            />
+          </view>
+        </view>
+        <view class="info-row">
+          <text class="info-label">
+            成立日期
+          </text>
+          <text class="info-value">
+            {{ orgDetails.establishmentDate }}
+          </text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">
+            机构简介
+          </text>
+          <text class="info-value">
+            {{ orgDetails.description }}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <view class="info-card">
+      <view class="card-title">
+        调解专家
+      </view>
+      <ExpertItem
+        v-for="expert in expertList"
+        :key="expert.id"
+        :expert="expert"
+      />
+    </view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .page-container {

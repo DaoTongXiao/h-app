@@ -22,7 +22,7 @@ export const useUserStore = defineStore(
     return {
       userInfo,
       setUserInfo,
-      clearUserInfo,
+      clearUserInfo
     }
   },
   // TODO: 持久化
@@ -35,8 +35,8 @@ export const useUserStore = defineStore(
         },
         getItem(key) {
           return uni.getStorageSync(key)
-        },
-      },
-    },
-  },
+        }
+      }
+    }
+  }
 )

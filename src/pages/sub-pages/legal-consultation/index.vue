@@ -1,3 +1,63 @@
+<script setup lang="ts">
+import { ref, reactive, computed } from 'vue'
+
+// 咨询类型
+const consultationTypes = reactive([
+  '预约律师审核相关法律文书',
+  '委托律师承办案件',
+  '简单法律问题咨询',
+  '预约律师咨询解答',
+  '其他'
+])
+
+const selectedType = ref('简单法律问题咨询') // 默认选中一项
+
+// 表单数据
+const formData = reactive({
+  name: '',
+  phone: '',
+  description: ''
+})
+
+// 计算咨询概述的字数
+const descriptionLength = computed(() => formData.description.length)
+
+// 选择咨询类型
+const selectType = (type: string) => {
+  selectedType.value = type
+}
+
+// 提交表单
+const submitForm = () => {
+  if (!formData.name) {
+    uni.showToast({ title: '请输入姓名', icon: 'none' })
+    return
+  }
+  if (!formData.phone || !/^1[3-9]\d{9}$/.test(formData.phone)) {
+    uni.showToast({ title: '请输入正确的手机号码', icon: 'none' })
+    return
+  }
+  if (!formData.description) {
+    uni.showToast({ title: '请输入咨询概述', icon: 'none' })
+    return
+  }
+
+  const submission = {
+    type: selectedType.value,
+    ...formData
+  }
+
+  console.log('Form Submitted:', submission)
+
+  uni.showToast({
+    title: '提交成功',
+    icon: 'success'
+  })
+
+  // 实际项目中，这里会调用 API 发送数据
+}
+</script>
+
 <template>
   <view class="form-container">
     <!-- 提示信息 -->
@@ -8,8 +68,10 @@
     <!-- 申请信息卡片 -->
     <view class="form-card">
       <view class="card-header">
-        <view class="header-indicator"></view>
-        <text class="header-title">申请信息</text>
+        <view class="header-indicator" />
+        <text class="header-title">
+          申请信息
+        </text>
       </view>
 
       <!-- 咨询类型标签 -->
@@ -26,106 +88,59 @@
 
       <!-- 表单项 -->
       <view class="form-item">
-        <text class="item-label required">姓名</text>
+        <text class="item-label required">
+          姓名
+        </text>
         <input
-          class="item-input"
           v-model="formData.name"
+          class="item-input"
           placeholder="请输入姓名"
           placeholder-class="placeholder"
-        />
+        >
       </view>
       <view class="form-item">
-        <text class="item-label required">手机号码</text>
+        <text class="item-label required">
+          手机号码
+        </text>
         <input
-          class="item-input"
           v-model="formData.phone"
+          class="item-input"
           type="number"
           maxlength="11"
           placeholder="请输入联系电话"
           placeholder-class="placeholder"
-        />
+        >
       </view>
       <view class="form-item-column">
-        <text class="item-label required">咨询概述</text>
+        <text class="item-label required">
+          咨询概述
+        </text>
         <view class="textarea-wrapper">
           <textarea
-            class="item-textarea"
             v-model="formData.description"
+            class="item-textarea"
             placeholder="请输入咨询内容"
             placeholder-class="placeholder"
             maxlength="50"
           />
-          <text class="char-counter">{{ descriptionLength }}/50</text>
+          <text class="char-counter">
+            {{ descriptionLength }}/50
+          </text>
         </view>
       </view>
     </view>
 
     <!-- 提交按钮 -->
     <view class="submit-button-wrapper">
-      <button class="submit-button" @click="submitForm">提交</button>
+      <button
+        class="submit-button"
+        @click="submitForm"
+      >
+        提交
+      </button>
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
-
-// 咨询类型
-const consultationTypes = reactive([
-  '预约律师审核相关法律文书',
-  '委托律师承办案件',
-  '简单法律问题咨询',
-  '预约律师咨询解答',
-  '其他',
-]);
-
-const selectedType = ref('简单法律问题咨询'); // 默认选中一项
-
-// 表单数据
-const formData = reactive({
-  name: '',
-  phone: '',
-  description: '',
-});
-
-// 计算咨询概述的字数
-const descriptionLength = computed(() => formData.description.length);
-
-// 选择咨询类型
-const selectType = (type: string) => {
-  selectedType.value = type;
-};
-
-// 提交表单
-const submitForm = () => {
-  if (!formData.name) {
-    uni.showToast({ title: '请输入姓名', icon: 'none' });
-    return;
-  }
-  if (!formData.phone || !/^1[3-9]\d{9}$/.test(formData.phone)) {
-    uni.showToast({ title: '请输入正确的手机号码', icon: 'none' });
-    return;
-  }
-  if (!formData.description) {
-    uni.showToast({ title: '请输入咨询概述', icon: 'none' });
-    return;
-  }
-
-  const submission = {
-    type: selectedType.value,
-    ...formData,
-  };
-
-  console.log('Form Submitted:', submission);
-
-  uni.showToast({
-    title: '提交成功',
-    icon: 'success',
-  });
-
-  // 实际项目中，这里会调用 API 发送数据
-};
-</script>
 
 <style scoped>
 .form-container {

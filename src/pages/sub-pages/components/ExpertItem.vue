@@ -1,24 +1,34 @@
-<template>
-  <view class="expert-item">
-    <image class="avatar" :src="expert.avatar" mode="aspectFill" />
-    <view class="info">
-      <text class="name">{{ expert.name }}</text>
-      <view class="specialty-box">
-        <text class="specialty-label">擅长：</text>
-        <text class="specialty-text">{{ expert.specialty }}</text>
-      </view>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
-import type { Expert } from '@/types/app';
+import type { Expert } from '@/types/app'
 
 interface Props {
   expert: Expert;
 }
-defineProps<Props>();
+defineProps<Props>()
 </script>
+
+<template>
+  <view class="expert-item">
+    <image
+      class="avatar"
+      :src="expert.avatar"
+      mode="aspectFill"
+    />
+    <view class="info">
+      <text class="name">
+        {{ expert.name }}
+      </text>
+      <view class="specialty-box">
+        <text class="specialty-label">
+          擅长：
+        </text>
+        <text class="specialty-text">
+          {{ expert.specialty }}
+        </text>
+      </view>
+    </view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .expert-item {

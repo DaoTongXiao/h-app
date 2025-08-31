@@ -1,77 +1,3 @@
-<template>
-  <view class="message-page">
-    <scroll-view scroll-y class="scroll-container">
-      <view class="nav-bar-placeholder"></view>
-
-      <view class="content-wrapper">
-        <view class="category-section">
-          <view
-            v-for="category in messageCategories"
-            :key="category.id"
-            class="category-item"
-            :class="{ active: activeTab === category.id }"
-            @tap="handleCategoryClick(category.id)"
-          >
-            <view class="category-icon-wrapper">
-              <uni-icons 
-                :type="category.icon" 
-                size="26" 
-                :color="activeTab === category.id ? '#007AFF' : '#666'"
-              ></uni-icons>
-              <view v-if="category.count > 0" class="badge">
-                <text class="badge-text">{{ category.count > 99 ? '99+' : category.count }}</text>
-              </view>
-            </view>
-            <text class="category-title">{{ category.title }}</text>
-          </view>
-        </view>
-
-        <view class="list-container">
-          <view class="list-header">
-            <text class="list-title">{{ activeCategoryTitle }}</text>
-            <view v-if="unreadCount > 0" class="read-all-btn" @tap="markAllAsRead">
-              <text class="read-all-text">全部已读</text>
-            </view>
-          </view>
-
-          <view class="message-list">
-            <template v-if="filteredMessages.length > 0">
-              <view
-                v-for="message in filteredMessages"
-                :key="message.id"
-                class="message-item"
-                :class="{ 'unread': !message.isRead }"
-                @tap="handleMessageClick(message)"
-              >
-                <view class="message-icon">
-                  <view class="icon-wrapper">
-                    <uni-icons type="notification-filled" size="22" color="#007AFF"></uni-icons>
-                  </view>
-                </view>
-                
-                <view class="message-content">
-                  <text class="message-title">{{ message.title }}</text>
-                  <text class="message-desc">{{ message.content }}</text>
-                </view>
-                
-                <view class="message-meta">
-                  <text class="message-time">{{ message.time }}</text>
-                  <view v-if="!message.isRead" class="unread-dot"></view>
-                </view>
-              </view>
-            </template>
-            
-            <view v-else class="empty-state">
-              <image class="empty-icon" src="/static/empty-box.svg" mode="aspectFit"></image>
-              <text class="empty-text">暂无此类消息</text>
-            </view>
-          </view>
-        </view>
-      </view>
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
 // --- script 部分与上一版相同，逻辑非常完善，无需改动 ---
 import { ref, computed, onMounted } from 'vue'
@@ -82,15 +8,15 @@ interface MessageCategory { id: 'event' | 'system' | 'notice'; title: string; ic
 const activeTab = ref<'event' | 'system' | 'notice'>('event')
 
 const messageList = ref<MessageItem[]>([
-  ...Array.from({ length: 12 }, (_, i) => ({ id: `evt-${i + 1}`, title: '您有一件正在办理中的事件...', content: '调解员正在处理该事件，已出具事件调处协...', time: '2024-07-10', isRead: false, type: 'event' as 'event' })),
+  ...Array.from({ length: 12 }, (_, i) => ({ id: `evt-${i + 1}`, title: '您有一件正在办理中的事件...', content: '调解员正在处理该事件，已出具事件调处协...', time: '2024-07-10', isRead: false, type: 'event' as const })),
   { id: 'sys-1', title: '系统维护通知', content: '为了提供更好的服务，系统将于今晚23:00进行升级。', time: '2024-07-09', isRead: true, type: 'system' },
-  { id: 'ntc-1', title: '在线确认通知示例', content: '您有一份新的文件需要在线确认，请及时处理。', time: '2024-07-08', isRead: true, type: 'notice' },
+  { id: 'ntc-1', title: '在线确认通知示例', content: '您有一份新的文件需要在线确认，请及时处理。', time: '2024-07-08', isRead: true, type: 'notice' }
 ])
 
 const messageCategories = ref<MessageCategory[]>([
   { id: 'event', title: '事件消息', icon: 'list', count: 0 },
   { id: 'system', title: '系统消息', icon: 'gear-filled', count: 0 },
-  { id: 'notice', title: '在线确认通知', icon: 'chat-filled', count: 0 },
+  { id: 'notice', title: '在线确认通知', icon: 'chat-filled', count: 0 }
 ])
 
 const activeCategoryTitle = computed(() => messageCategories.value.find(c => c.id === activeTab.value)?.title || '消息列表')
@@ -127,6 +53,120 @@ const markAllAsRead = () => {
 
 onMounted(() => { updateCategoryCounts() })
 </script>
+
+<template>
+  <view class="message-page">
+    <scroll-view
+      scroll-y
+      class="scroll-container"
+    >
+      <view class="nav-bar-placeholder" />
+
+      <view class="content-wrapper">
+        <view class="category-section">
+          <view
+            v-for="category in messageCategories"
+            :key="category.id"
+            class="category-item"
+            :class="{ active: activeTab === category.id }"
+            @tap="handleCategoryClick(category.id)"
+          >
+            <view class="category-icon-wrapper">
+              <uni-icons 
+                :type="category.icon" 
+                size="26" 
+                :color="activeTab === category.id ? '#007AFF' : '#666'"
+              />
+              <view
+                v-if="category.count > 0"
+                class="badge"
+              >
+                <text class="badge-text">
+                  {{ category.count > 99 ? '99+' : category.count }}
+                </text>
+              </view>
+            </view>
+            <text class="category-title">
+              {{ category.title }}
+            </text>
+          </view>
+        </view>
+
+        <view class="list-container">
+          <view class="list-header">
+            <text class="list-title">
+              {{ activeCategoryTitle }}
+            </text>
+            <view
+              v-if="unreadCount > 0"
+              class="read-all-btn"
+              @tap="markAllAsRead"
+            >
+              <text class="read-all-text">
+                全部已读
+              </text>
+            </view>
+          </view>
+
+          <view class="message-list">
+            <template v-if="filteredMessages.length > 0">
+              <view
+                v-for="message in filteredMessages"
+                :key="message.id"
+                class="message-item"
+                :class="{ 'unread': !message.isRead }"
+                @tap="handleMessageClick(message)"
+              >
+                <view class="message-icon">
+                  <view class="icon-wrapper">
+                    <uni-icons
+                      type="notification-filled"
+                      size="22"
+                      color="#007AFF"
+                    />
+                  </view>
+                </view>
+                
+                <view class="message-content">
+                  <text class="message-title">
+                    {{ message.title }}
+                  </text>
+                  <text class="message-desc">
+                    {{ message.content }}
+                  </text>
+                </view>
+                
+                <view class="message-meta">
+                  <text class="message-time">
+                    {{ message.time }}
+                  </text>
+                  <view
+                    v-if="!message.isRead"
+                    class="unread-dot"
+                  />
+                </view>
+              </view>
+            </template>
+            
+            <view
+              v-else
+              class="empty-state"
+            >
+              <image
+                class="empty-icon"
+                src="/static/empty-box.svg"
+                mode="aspectFit"
+              />
+              <text class="empty-text">
+                暂无此类消息
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 // 页面整体背景，保持顶部有渐变色

@@ -4,6 +4,6 @@ import type { BannerItem } from '@/types/api'
 export const getBannerAPI = (data: string) => {
   return http<BannerItem[]>({
     url: '/banner?type=' + data,
-    method: 'GET',
+    method: 'GET'
   })
 }

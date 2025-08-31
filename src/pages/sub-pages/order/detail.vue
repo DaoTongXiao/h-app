@@ -1,248 +1,3 @@
-<template>
-  <view class="container">
-        <!-- 事件基本信息 -->
-    <view class="case-header">
-      <view class="case-info">
-        <text class="case-label">事件编号：</text>
-        <text class="case-value">{{ caseInfo.caseNumber }}</text>
-        <view class="case-tag" v-if="caseInfo.status === '邻里纠纷'">邻里纠纷</view>
-      </view>
-      <view class="case-meta">
-        <text class="meta-item">登记日期：{{ caseInfo.registerDate }}</text>
-        <text class="meta-item">事件状态：
-          <text class="status" :class="getStatusClass(caseInfo.status)">{{ caseInfo.status }}</text>
-        </text>
-      </view>
-    </view>
-
-    <!-- 标签页导航 -->
-    <view class="tabs">
-      <view 
-        class="tab-item" 
-        :class="{ active: activeTab === index }" 
-        v-for="(tab, index) in tabs" 
-        :key="index"
-        @click="switchTab(index)"
-      >
-        <text>{{ tab.name }}</text>
-        <view class="tab-dot" v-if="tab.hasNotification"></view>
-      </view>
-    </view>
-
-    <!-- 内容区域 -->
-    <view class="content">
-      <!-- 事项详情 -->
-      <view v-if="activeTab === 0" class="tab-content">
-        <view class="info-section">
-          <view class="section-title">被申请人信息</view>
-          <view class="info-item">
-            <text class="info-label">姓名</text>
-            <text class="info-value">{{ disputeInfo.respondent.name }}</text>
-            <text class="gender-tag">{{ disputeInfo.respondent.gender }}</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">手机号码</text>
-            <text class="info-value">{{ disputeInfo.respondent.phone }}</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">证件号码</text>
-            <text class="info-value">{{ disputeInfo.respondent.idNumber }}</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">家庭住址</text>
-            <text class="info-value">{{ disputeInfo.respondent.address }}</text>
-          </view>
-        </view>
-
-        <view class="info-section">
-          <view class="section-title">
-            纠纷信息
-            <text class="section-action" @click="handleDispute">邻里纠纷</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">纠纷日期</text>
-            <text class="info-value">{{ disputeInfo.dispute.date }}</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">纠纷属地</text>
-            <text class="info-value">{{ disputeInfo.dispute.location }}</text>
-          </view>
-          <view class="info-item">
-            <text class="info-label">诉求内容</text>
-            <text class="info-value description">{{ disputeInfo.dispute.description }}</text>
-          </view>
-        </view>
-
-        <view class="info-section">
-          <view class="section-title">附件信息</view>
-          <view class="attachment-list">
-            <view 
-              class="attachment-item" 
-              v-for="(file, index) in disputeInfo.attachments" 
-              :key="index"
-              @click="previewFile(file)"
-            >
-              <view class="file-icon" :class="getFileIconClass(file.type)">
-                <text>{{ getFileIcon(file.type) }}</text>
-              </view>
-              <text class="file-name">{{ file.name }}</text>
-            </view>
-          </view>
-        </view>
-
-        <!-- 操作按钮 -->
-        <view class="action-buttons">
-          <view class="btn-secondary" @click="deleteCase">删除</view>
-          <view class="btn-primary" @click="editCase">修改</view>
-        </view>
-      </view>
-
-      <!-- 办理记录 -->
-      <view v-if="activeTab === 1" class="tab-content">
-        <view class="process-records">
-          <view class="timeline">
-            <view 
-              class="timeline-item" 
-              v-for="(record, index) in processRecords" 
-              :key="index"
-            >
-              <view class="timeline-dot" :class="record.status"></view>
-              <view class="timeline-content">
-                <view class="timeline-time">{{ record.time }}</view>
-                <view class="timeline-title">{{ record.title }}</view>
-                <view class="timeline-desc" v-if="record.description">{{ record.description }}</view>
-                <view class="timeline-operator" v-if="record.operator">操作人：{{ record.operator }}</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 办理结果 -->
-      <view v-if="activeTab === 2" class="tab-content">
-        <!-- 成功案例 -->
-        <view v-if="caseInfo.status === '已办结'" class="result-success">
-          <view class="result-icon">
-            <view class="icon-wrapper success">
-              <text class="checkmark">✓</text>
-            </view>
-          </view>
-          <view class="result-title">解纠成功</view>
-          <view class="result-details">
-            <view class="result-item">
-              <text class="result-label">化解日期：</text>
-              <text class="result-value">{{ resultInfo.resolveDate }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">创建单位：</text>
-              <text class="result-value">{{ resultInfo.organization }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">化解情况：</text>
-              <text class="result-value">{{ resultInfo.resolution }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">化解附件：</text>
-              <view class="result-link" @click="viewAgreement">
-                <text class="file-icon">📄</text>
-                <text class="link-text">调解协议书</text>
-              </view>
-            </view>
-          </view>
-        </view>
-
-        <!-- 失败案例 -->
-        <view v-if="caseInfo.status === '办理中'" class="result-failure">
-          <view class="result-icon">
-            <view class="icon-wrapper failure">
-              <text class="cross">✕</text>
-            </view>
-          </view>
-          <view class="result-title">解纠失败</view>
-          <view class="result-details">
-            <view class="result-item">
-              <text class="result-label">化解日期：</text>
-              <text class="result-value">{{ failureResultInfo.resolveDate }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">创建单位：</text>
-              <text class="result-value">{{ failureResultInfo.organization }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">化解情况：</text>
-              <text class="result-value failure-text">{{ failureResultInfo.resolution }}</text>
-            </view>
-            <view class="result-item">
-              <text class="result-label">化解附件：</text>
-              <view class="result-link" @click="viewAgreement">
-                <text class="file-icon">📄</text>
-                <text class="link-text">调解协议书</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 事件评价 -->
-      <view v-if="activeTab === 3" class="tab-content">
-        <!-- 已评价状态 -->
-        <view v-if="evaluationInfo.isEvaluated" class="evaluation-completed">
-          <text class="evaluation-prompt">已对调解部门工作人员的服务态度、工作作风和工作效率做出评价</text>
-          
-          <view class="rating-display">
-            <view class="stars">
-              <text 
-                class="star" 
-                :class="{ active: index < evaluationInfo.rating }"
-                v-for="index in 3" 
-                :key="index"
-              >★</text>
-            </view>
-            <text class="rating-text">{{ getRatingText(evaluationInfo.rating) }}</text>
-          </view>
-
-          <view class="evaluation-content">
-            <text>{{ evaluationInfo.comment }}</text>
-          </view>
-
-          <view class="evaluation-time">
-            评价时间：{{ evaluationInfo.evaluateTime }}
-          </view>
-        </view>
-
-        <!-- 待评价状态 -->
-        <view v-else class="evaluation-form">
-          <text class="evaluation-question">您对调解部门工作人员的服务态度、工作作风和工作效率是否满意？</text>
-          
-          <view class="rating-selector">
-            <view class="stars">
-              <text 
-                class="star" 
-                :class="{ active: index < currentRating }"
-                v-for="index in 3" 
-                :key="index"
-                @click="setRating(index + 1)"
-              >★</text>
-            </view>
-            <text class="rating-text">{{ getRatingText(currentRating) }}</text>
-          </view>
-
-          <view class="comment-input">
-            <textarea 
-              v-model="evaluationComment"
-              placeholder="请输入评价内容..."
-              maxlength="100"
-            ></textarea>
-            <text class="char-count">{{ evaluationComment.length }}/100</text>
-          </view>
-
-          <view class="submit-btn" @click="submitEvaluation">提交</view>
-        </view>
-      </view>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 
@@ -522,6 +277,435 @@ const submitEvaluation = () => {
   })
 }
 </script>
+
+<template>
+  <view class="container">
+    <!-- 事件基本信息 -->
+    <view class="case-header">
+      <view class="case-info">
+        <text class="case-label">
+          事件编号：
+        </text>
+        <text class="case-value">
+          {{ caseInfo.caseNumber }}
+        </text>
+        <view
+          v-if="caseInfo.status === '邻里纠纷'"
+          class="case-tag"
+        >
+          邻里纠纷
+        </view>
+      </view>
+      <view class="case-meta">
+        <text class="meta-item">
+          登记日期：{{ caseInfo.registerDate }}
+        </text>
+        <text class="meta-item">
+          事件状态：
+          <text
+            class="status"
+            :class="getStatusClass(caseInfo.status)"
+          >
+            {{ caseInfo.status }}
+          </text>
+        </text>
+      </view>
+    </view>
+
+    <!-- 标签页导航 -->
+    <view class="tabs">
+      <view 
+        v-for="(tab, index) in tabs" 
+        :key="index" 
+        class="tab-item" 
+        :class="{ active: activeTab === index }"
+        @click="switchTab(index)"
+      >
+        <text>{{ tab.name }}</text>
+        <view
+          v-if="tab.hasNotification"
+          class="tab-dot"
+        />
+      </view>
+    </view>
+
+    <!-- 内容区域 -->
+    <view class="content">
+      <!-- 事项详情 -->
+      <view
+        v-if="activeTab === 0"
+        class="tab-content"
+      >
+        <view class="info-section">
+          <view class="section-title">
+            被申请人信息
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              姓名
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.respondent.name }}
+            </text>
+            <text class="gender-tag">
+              {{ disputeInfo.respondent.gender }}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              手机号码
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.respondent.phone }}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              证件号码
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.respondent.idNumber }}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              家庭住址
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.respondent.address }}
+            </text>
+          </view>
+        </view>
+
+        <view class="info-section">
+          <view class="section-title">
+            纠纷信息
+            <text
+              class="section-action"
+              @click="handleDispute"
+            >
+              邻里纠纷
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              纠纷日期
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.dispute.date }}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              纠纷属地
+            </text>
+            <text class="info-value">
+              {{ disputeInfo.dispute.location }}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">
+              诉求内容
+            </text>
+            <text class="info-value description">
+              {{ disputeInfo.dispute.description }}
+            </text>
+          </view>
+        </view>
+
+        <view class="info-section">
+          <view class="section-title">
+            附件信息
+          </view>
+          <view class="attachment-list">
+            <view 
+              v-for="(file, index) in disputeInfo.attachments" 
+              :key="index" 
+              class="attachment-item"
+              @click="previewFile(file)"
+            >
+              <view
+                class="file-icon"
+                :class="getFileIconClass(file.type)"
+              >
+                <text>{{ getFileIcon(file.type) }}</text>
+              </view>
+              <text class="file-name">
+                {{ file.name }}
+              </text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="action-buttons">
+          <view
+            class="btn-secondary"
+            @click="deleteCase"
+          >
+            删除
+          </view>
+          <view
+            class="btn-primary"
+            @click="editCase"
+          >
+            修改
+          </view>
+        </view>
+      </view>
+
+      <!-- 办理记录 -->
+      <view
+        v-if="activeTab === 1"
+        class="tab-content"
+      >
+        <view class="process-records">
+          <view class="timeline">
+            <view 
+              v-for="(record, index) in processRecords" 
+              :key="index" 
+              class="timeline-item"
+            >
+              <view
+                class="timeline-dot"
+                :class="record.status"
+              />
+              <view class="timeline-content">
+                <view class="timeline-time">
+                  {{ record.time }}
+                </view>
+                <view class="timeline-title">
+                  {{ record.title }}
+                </view>
+                <view
+                  v-if="record.description"
+                  class="timeline-desc"
+                >
+                  {{ record.description }}
+                </view>
+                <view
+                  v-if="record.operator"
+                  class="timeline-operator"
+                >
+                  操作人：{{ record.operator }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 办理结果 -->
+      <view
+        v-if="activeTab === 2"
+        class="tab-content"
+      >
+        <!-- 成功案例 -->
+        <view
+          v-if="caseInfo.status === '已办结'"
+          class="result-success"
+        >
+          <view class="result-icon">
+            <view class="icon-wrapper success">
+              <text class="checkmark">
+                ✓
+              </text>
+            </view>
+          </view>
+          <view class="result-title">
+            解纠成功
+          </view>
+          <view class="result-details">
+            <view class="result-item">
+              <text class="result-label">
+                化解日期：
+              </text>
+              <text class="result-value">
+                {{ resultInfo.resolveDate }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                创建单位：
+              </text>
+              <text class="result-value">
+                {{ resultInfo.organization }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                化解情况：
+              </text>
+              <text class="result-value">
+                {{ resultInfo.resolution }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                化解附件：
+              </text>
+              <view
+                class="result-link"
+                @click="viewAgreement"
+              >
+                <text class="file-icon">
+                  📄
+                </text>
+                <text class="link-text">
+                  调解协议书
+                </text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 失败案例 -->
+        <view
+          v-if="caseInfo.status === '办理中'"
+          class="result-failure"
+        >
+          <view class="result-icon">
+            <view class="icon-wrapper failure">
+              <text class="cross">
+                ✕
+              </text>
+            </view>
+          </view>
+          <view class="result-title">
+            解纠失败
+          </view>
+          <view class="result-details">
+            <view class="result-item">
+              <text class="result-label">
+                化解日期：
+              </text>
+              <text class="result-value">
+                {{ failureResultInfo.resolveDate }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                创建单位：
+              </text>
+              <text class="result-value">
+                {{ failureResultInfo.organization }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                化解情况：
+              </text>
+              <text class="result-value failure-text">
+                {{ failureResultInfo.resolution }}
+              </text>
+            </view>
+            <view class="result-item">
+              <text class="result-label">
+                化解附件：
+              </text>
+              <view
+                class="result-link"
+                @click="viewAgreement"
+              >
+                <text class="file-icon">
+                  📄
+                </text>
+                <text class="link-text">
+                  调解协议书
+                </text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 事件评价 -->
+      <view
+        v-if="activeTab === 3"
+        class="tab-content"
+      >
+        <!-- 已评价状态 -->
+        <view
+          v-if="evaluationInfo.isEvaluated"
+          class="evaluation-completed"
+        >
+          <text class="evaluation-prompt">
+            已对调解部门工作人员的服务态度、工作作风和工作效率做出评价
+          </text>
+          
+          <view class="rating-display">
+            <view class="stars">
+              <text 
+                v-for="index in 3" 
+                :key="index"
+                class="star" 
+                :class="{ active: index < evaluationInfo.rating }"
+              >
+                ★
+              </text>
+            </view>
+            <text class="rating-text">
+              {{ getRatingText(evaluationInfo.rating) }}
+            </text>
+          </view>
+
+          <view class="evaluation-content">
+            <text>{{ evaluationInfo.comment }}</text>
+          </view>
+
+          <view class="evaluation-time">
+            评价时间：{{ evaluationInfo.evaluateTime }}
+          </view>
+        </view>
+
+        <!-- 待评价状态 -->
+        <view
+          v-else
+          class="evaluation-form"
+        >
+          <text class="evaluation-question">
+            您对调解部门工作人员的服务态度、工作作风和工作效率是否满意？
+          </text>
+          
+          <view class="rating-selector">
+            <view class="stars">
+              <text 
+                v-for="index in 3" 
+                :key="index"
+                class="star" 
+                :class="{ active: index < currentRating }"
+                @click="setRating(index + 1)"
+              >
+                ★
+              </text>
+            </view>
+            <text class="rating-text">
+              {{ getRatingText(currentRating) }}
+            </text>
+          </view>
+
+          <view class="comment-input">
+            <textarea 
+              v-model="evaluationComment"
+              placeholder="请输入评价内容..."
+              maxlength="100"
+            />
+            <text class="char-count">
+              {{ evaluationComment.length }}/100
+            </text>
+          </view>
+
+          <view
+            class="submit-btn"
+            @click="submitEvaluation"
+          >
+            提交
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .container {

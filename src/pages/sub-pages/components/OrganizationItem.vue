@@ -1,27 +1,39 @@
-<template>
-  <view class="org-item">
-    <view class="icon-wrapper">
-      <uni-icons type="list" size="24" color="#409eff"></uni-icons>
-    </view>
-    <view class="info">
-      <view class="name-line">
-        <text class="name">{{ organization.name }}</text>
-        <text class="member-tag">{{ organization.memberCount }}人</text>
-      </view>
-      <text class="meta-info">电话：{{ organization.phone }}</text>
-      <text class="meta-info">地址：{{ organization.address }}</text>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
-import type { Organization } from '@/types/app';
+import type { Organization } from '@/types/app'
 
 interface Props {
   organization: Organization;
 }
-defineProps<Props>();
+defineProps<Props>()
 </script>
+
+<template>
+  <view class="org-item">
+    <view class="icon-wrapper">
+      <uni-icons
+        type="list"
+        size="24"
+        color="#409eff"
+      />
+    </view>
+    <view class="info">
+      <view class="name-line">
+        <text class="name">
+          {{ organization.name }}
+        </text>
+        <text class="member-tag">
+          {{ organization.memberCount }}人
+        </text>
+      </view>
+      <text class="meta-info">
+        电话：{{ organization.phone }}
+      </text>
+      <text class="meta-info">
+        地址：{{ organization.address }}
+      </text>
+    </view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .org-item {

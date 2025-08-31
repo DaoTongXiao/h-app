@@ -14,7 +14,7 @@ const httpInterceptor = {
     // 添加请求头标识
     options.header = {
       'request-client': 'wechart-app',
-      ...options.header,
+      ...options.header
     }
     // 添加 token 请求头标识
     const memberStore = useUserStore()
@@ -22,7 +22,7 @@ const httpInterceptor = {
     if (token) {
       options.header.Authorization = token
     }
-  },
+  }
 }
 
 // 拦截 request 请求
@@ -59,7 +59,7 @@ export const http = <T>(options: UniApp.RequestOptions) => {
           // 其他错误 -> 根据后端错误信息轻提示
           uni.showToast({
             icon: 'none',
-            title: (res.data as Data<T>).msg || '请求错误',
+            title: (res.data as Data<T>).msg || '请求错误'
           })
           reject(res)
         }
@@ -68,10 +68,10 @@ export const http = <T>(options: UniApp.RequestOptions) => {
       fail(err) {
         uni.showToast({
           icon: 'none',
-          title: '网络错误，换个网络试试',
+          title: '网络错误，换个网络试试'
         })
         reject(err)
-      },
+      }
     })
   })
 }

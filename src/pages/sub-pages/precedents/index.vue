@@ -1,27 +1,7 @@
-<template>
-  <view class="page-container">
-    <view class="search-bar-container">
-      <uni-search-bar
-        placeholder="请输入关键词进行搜索"
-        bgColor="#F5F5F5"
-        :radius="100"
-        cancelButton="none"
-        @confirm="search"
-      ></uni-search-bar>
-    </view>
-
-    <scroll-view scroll-y class="case-list-container">
-      <view v-for="item in caseList" :key="item.id">
-        <CaseItem :case-data="item" />
-      </view>
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue';
-import CaseItem from '../components/CaseItem.vue';
-import type { Case } from './types';
+import { ref } from 'vue'
+import CaseItem from '../components/CaseItem.vue'
+import type { Case } from '@/types/app'
 
 // 模拟案例数据
 const caseList = ref<Case[]>([
@@ -30,36 +10,62 @@ const caseList = ref<Case[]>([
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
     images: ['/static/images/case.png'],
     date: '2024-07-10',
-    tag: '邻里关系',
+    tag: '邻里关系'
   },
   {
     id: 2,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
     images: ['/static/images/case.png', '/static/images/case.png', '/static/images/case.png'],
     date: '2024-07-10',
-    tag: '邻里关系',
+    tag: '邻里关系'
   },
   {
     id: 3,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
     images: [], // 没有图片的情况
     date: '2024-07-10',
-    tag: '邻里关系',
+    tag: '邻里关系'
   },
   {
     id: 4,
     description: '在小区店区苹果园大街苹果园路东口遮南20米处,李某某驾驶自行车由南向北行驶时,适有代某某驾驶重...',
     images: ['/static/images/case.png', '/static/images/case.png', '/static/images/case.png'],
     date: '2024-07-10',
-    tag: '邻里关系',
-  },
-]);
+    tag: '邻里关系'
+  }
+])
 
 const search = (e: any) => {
-  console.log('搜索内容:', e.value);
+  console.log('搜索内容:', e.value)
   // 在这里处理搜索逻辑
-};
+}
 </script>
+
+<template>
+  <view class="page-container">
+    <view class="search-bar-container">
+      <uni-search-bar
+        placeholder="请输入关键词进行搜索"
+        bg-color="#F5F5F5"
+        :radius="100"
+        cancel-button="none"
+        @confirm="search"
+      />
+    </view>
+
+    <scroll-view
+      scroll-y
+      class="case-list-container"
+    >
+      <view
+        v-for="item in caseList"
+        :key="item.id"
+      >
+        <CaseItem :case-data="item" />
+      </view>
+    </scroll-view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .page-container {
@@ -82,7 +88,7 @@ const search = (e: any) => {
     display: flex;
     align-items: center;
   }
-  
+
   .navbar-title {
     font-size: 18px;
     font-weight: bold;
@@ -93,7 +99,7 @@ const search = (e: any) => {
     display: flex;
     align-items: center;
     .icon-more {
-        margin-right: 15px;
+      margin-right: 15px;
     }
   }
 }

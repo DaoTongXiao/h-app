@@ -1,3 +1,35 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import OrganizationItem from '../components/OrganizationItem.vue'
+import ExpertItem from '../components/ExpertItem.vue'
+import type { Organization, Expert } from '@/types/app'
+
+// --- 数据区 ---
+const activeTab = ref(0)
+
+// 模拟机构数据
+const organizationList = ref<Organization[]>([
+  { id: 1, name: '新疆生产建设兵团第五师中心团场八十三团一连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
+  { id: 2, name: '新疆生产建设兵团第五师八十一团七连调委会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
+  { id: 3, name: '第五师八十一团劳动争议人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
+  { id: 4, name: '新疆生产建设兵团第五师中心团场八十三团九连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' }
+])
+
+// 模拟专家数据 (需要处理成 uni-indexed-list 的格式)
+const expertList: Expert[] = [
+  { id: 101, name: '韦佳玉', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
+  { id: 102, name: '马永盛', avatar: '/static/avatar-male-2.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
+  { id: 103, name: '席婉红', avatar: '/static/avatar-female-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
+  { id: 104, name: '张嘉伟', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' }
+]
+
+
+// --- 方法区 ---
+const switchTab = (index: number) => {
+  activeTab.value = index
+}
+</script>
+
 <template>
   <view class="page-container">
     <view class="tabs">
@@ -21,15 +53,23 @@
       <uni-search-bar
         class="search-bar"
         placeholder="请输入关键词进行搜索"
-        bgColor="#F5F5F5"
+        bg-color="#F5F5F5"
         :radius="100"
-        cancelButton="none"
-      ></uni-search-bar>
-      <uni-icons type="settings" size="22" color="#666"></uni-icons>
+        cancel-button="none"
+      />
+      <uni-icons
+        type="settings"
+        size="22"
+        color="#666"
+      />
     </view>
 
     <view class="content-area">
-      <scroll-view v-show="activeTab === 0" scroll-y class="list-scroll">
+      <scroll-view
+        v-show="activeTab === 0"
+        scroll-y
+        class="list-scroll"
+      >
         <OrganizationItem
           v-for="org in organizationList"
           :key="org.id"
@@ -37,47 +77,19 @@
         />
       </scroll-view>
 
-      <view v-show="activeTab === 1" class="indexed-list-wrapper">
-        <OrganizationItem
-          v-for="org in expertList"
-          :key="org.id"
-          :organization="org"
+      <view
+        v-show="activeTab === 1"
+        class="indexed-list-wrapper"
+      >
+        <ExpertItem
+          v-for="expert in expertList"
+          :key="expert.id"
+          :expert="expert"
         />
       </view>
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import OrganizationItem from '../components/OrganizationItem.vue';
-import type { Organization, Expert } from '@/types/app';
-
-// --- 数据区 ---
-const activeTab = ref(0);
-
-// 模拟机构数据
-const organizationList = ref<Organization[]>([
-  { id: 1, name: '新疆生产建设兵团第五师中心团场八十三团一连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 2, name: '新疆生产建设兵团第五师八十一团七连调委会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 3, name: '第五师八十一团劳动争议人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 4, name: '新疆生产建设兵团第五师中心团场八十三团九连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-]);
-
-// 模拟专家数据 (需要处理成 uni-indexed-list 的格式)
-const expertList: Expert[] = [
-  { id: 101, name: '韦佳玉', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 102, name: '马永盛', avatar: '/static/avatar-male-2.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 103, name: '席婉红', avatar: '/static/avatar-female-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 104, name: '张嘉伟', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-];
-
-
-// --- 方法区 ---
-const switchTab = (index: number) => {
-  activeTab.value = index;
-};
-</script>
 
 <style lang="scss" scoped>
 // --- 整体布局 ---

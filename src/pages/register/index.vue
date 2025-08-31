@@ -10,7 +10,7 @@ const form = reactive({
   code: '',
   password: '',
   confirmPassword: '',
-  agree: false,
+  agree: false
 })
 
 // 加载状态
@@ -162,20 +162,29 @@ const goToLogin = () => {
 
 <template>
   <view class="viewport">
-
-
     <!-- 返回按钮 -->
-    <view class="back-btn" @click="uni.navigateBack()">
-      <text class="back-arrow">‹</text>
+    <view
+      class="back-btn"
+      @click="uni.navigateBack()"
+    >
+      <text class="back-arrow">
+        ‹
+      </text>
     </view>
 
     <!-- 标题区域 -->
     <view class="title-section">
       <view class="title-container">
-        <text class="main-title">新疆生产建设兵团</text>
-        <view class="welcome-badge">欢迎注册</view>
+        <text class="main-title">
+          新疆生产建设兵团
+        </text>
+        <view class="welcome-badge">
+          欢迎注册
+        </view>
       </view>
-      <text class="sub-title">第五师双河市</text>
+      <text class="sub-title">
+        第五师双河市
+      </text>
     </view>
 
     <!-- 表单区域 -->
@@ -188,23 +197,45 @@ const goToLogin = () => {
           placeholder="请输入姓名"
           class="input-field"
           @focus="clearError('name')"
-        />
+        >
       </view>
 
       <!-- 性别选择 -->
-      <view class="input-container selector-container" @click="showGenderPicker = true">
+      <view
+        class="input-container selector-container"
+        @click="showGenderPicker = true"
+      >
         <view class="selector-field">
-          <text class="selector-text">{{ form.gender }}</text>
-          <text class="selector-arrow">›</text>
+          <text class="selector-text">
+            {{ form.gender }}
+          </text>
+          <text class="selector-arrow">
+            ›
+          </text>
         </view>
       </view>
 
       <!-- 家庭住址选择 -->
-      <view class="input-container selector-container" @click="selectAddress">
+      <view
+        class="input-container selector-container"
+        @click="selectAddress"
+      >
         <view class="selector-field">
-          <text class="selector-text placeholder" v-if="!form.address">请选择家庭住址</text>
-          <text class="selector-text" v-else>{{ form.address }}</text>
-          <text class="selector-arrow">›</text>
+          <text
+            v-if="!form.address"
+            class="selector-text placeholder"
+          >
+            请选择家庭住址
+          </text>
+          <text
+            v-else
+            class="selector-text"
+          >
+            {{ form.address }}
+          </text>
+          <text class="selector-arrow">
+            ›
+          </text>
         </view>
       </view>
 
@@ -216,7 +247,7 @@ const goToLogin = () => {
           placeholder="请输入手机号码"
           class="input-field"
           @focus="clearError('phone')"
-        />
+        >
       </view>
 
       <!-- 验证码输入框 -->
@@ -227,7 +258,7 @@ const goToLogin = () => {
           placeholder="请输入手机验证码"
           class="input-field code-field"
           @focus="clearError('code')"
-        />
+        >
         <button
           class="code-btn"
           :disabled="countdown > 0 || isSendingCode"
@@ -245,9 +276,11 @@ const goToLogin = () => {
           placeholder="请输入登录密码"
           class="input-field password-field"
           @focus="clearError('password')"
-        />
+        >
         <view class="password-toggle">
-          <text class="eye-icon">👁</text>
+          <text class="eye-icon">
+            👁
+          </text>
         </view>
       </view>
 
@@ -259,49 +292,89 @@ const goToLogin = () => {
           placeholder="请再次输入登录密码"
           class="input-field password-field"
           @focus="clearError('confirmPassword')"
-        />
+        >
         <view class="password-toggle">
-          <text class="eye-icon">👁</text>
+          <text class="eye-icon">
+            👁
+          </text>
         </view>
       </view>
 
       <!-- 协议勾选 -->
       <view class="agreement-section">
-        <view class="checkbox-container" @click="form.agree = !form.agree">
-          <view class="checkbox" :class="{ checked: form.agree }">
-            <text v-if="form.agree" class="check-mark">✓</text>
+        <view
+          class="checkbox-container"
+          @click="form.agree = !form.agree"
+        >
+          <view
+            class="checkbox"
+            :class="{ checked: form.agree }"
+          >
+            <text
+              v-if="form.agree"
+              class="check-mark"
+            >
+              ✓
+            </text>
           </view>
         </view>
         <text class="agreement-text">
           我已阅读并同意
-          <text class="policy-link">《用户隐私政策》</text>
+          <text class="policy-link">
+            《用户隐私政策》
+          </text>
         </text>
       </view>
 
       <!-- 注册按钮 -->
-      <button class="register-button" :disabled="isLoading" @click="submitRegister">
+      <button
+        class="register-button"
+        :disabled="isLoading"
+        @click="submitRegister"
+      >
         {{ isLoading ? '注册中...' : '注册' }}
       </button>
 
       <!-- 底部链接 -->
       <view class="footer-links">
-        <text class="has-account">已有账号？</text>
-        <text class="login-link" @click="goToLogin">去登录 ›</text>
+        <text class="has-account">
+          已有账号？
+        </text>
+        <text
+          class="login-link"
+          @click="goToLogin"
+        >
+          去登录 ›
+        </text>
       </view>
     </view>
 
     <!-- 性别选择弹窗 -->
-    <view class="picker-overlay" v-if="showGenderPicker" @click="showGenderPicker = false">
-      <view class="picker-container" @click.stop>
+    <view
+      v-if="showGenderPicker"
+      class="picker-overlay"
+      @click="showGenderPicker = false"
+    >
+      <view
+        class="picker-container"
+        @click.stop
+      >
         <view class="picker-header">
-          <text class="picker-title">选择性别</text>
-          <text class="picker-close" @click="showGenderPicker = false">×</text>
+          <text class="picker-title">
+            选择性别
+          </text>
+          <text
+            class="picker-close"
+            @click="showGenderPicker = false"
+          >
+            ×
+          </text>
         </view>
         <view class="picker-options">
           <view 
-            class="picker-option"
             v-for="gender in genderOptions"
             :key="gender"
+            class="picker-option"
             @click="selectGender(gender)"
           >
             <text>{{ gender }}</text>
@@ -311,7 +384,7 @@ const goToLogin = () => {
     </view>
 
     <!-- 底部指示器 -->
-    <view class="bottom-indicator"></view>
+    <view class="bottom-indicator" />
   </view>
 </template>
 
