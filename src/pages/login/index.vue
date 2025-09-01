@@ -282,7 +282,7 @@ const handleRegisterClick = () => {
       <view class="footer-links">
         <text
           class="forgot-password"
-          @click="uni.navigateTo({ url: '/pages/reset-password' })"
+          @click="uni.navigateTo({ url: '/pages/sub-pages/forget-password/index' })"
         >
           忘记密码？
         </text>

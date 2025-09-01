@@ -8,7 +8,8 @@
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
 		}
 	},
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationStyle": "custom", // 隐藏默认导航
@@ -53,7 +54,6 @@
 			}
 		},
 		{
-
 			"path": "pages/sub-pages/precedents/index",
 			"style": {
 				"navigationBarTitleText": "案例"
@@ -108,10 +108,15 @@
 			}
 		},
 		{
-			"path" : "pages/sub-pages/online/online",
-			"style" : 
-			{
-				"navigationBarTitleText" : "在线调解"
+			"path": "pages/sub-pages/online/online",
+			"style": {
+				"navigationBarTitleText": "在线调解"
+			}
+		},
+		{
+			"path": "pages/sub-pages/forget-password/index",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
 			}
 		}
 	],
@@ -128,7 +133,8 @@
 		"backgroundColor": "#fff",
 		"borderStyle": "white",
 		"spacing": "5px",
-		"list": [{
+		"list": [
+			{
 				"text": "首页",
 				"pagePath": "pages/home/index",
 				"iconPath": "static/tabs/home_default.png",

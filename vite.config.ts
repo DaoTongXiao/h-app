@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import Uni from '@dcloudio/vite-plugin-uni'
+import uni from '@dcloudio/vite-plugin-uni'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,7 +7,7 @@ export default defineConfig({
     // 开发阶段启用源码映射：https://uniapp.dcloud.net.cn/tutorial/migration-to-vue3.html#需主动开启-sourcemap
     sourcemap: process.env.NODE_ENV === 'development'
   },
-  plugins: [Uni()],
+  plugins: [uni()],
   css: {
     preprocessorOptions: {
       scss: {
@@ -29,3 +29,6 @@ export default defineConfig({
     }
   }
 })
+
+
+

@@ -3,9 +3,15 @@ import { ref, reactive } from 'vue'
 
 // 表单数据
 const form = reactive({
+  applicantType: '自然人', // 申请人类别
   name: '',
   gender: '女',
+  birthDate: '', // 出生日期
+  age: '', // 年纪
+  idType: '', // 证件类型
+  idNumber: '', // 证件号码
   address: '',
+  domicile: '', // 户籍地
   phone: '',
   code: '',
   password: '',
@@ -23,16 +29,26 @@ const timer = ref<number | null>(null)
 
 // 错误状态
 const errors = ref({
+  applicantType: '',
   name: '',
   phone: '',
   code: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  birthDate: '',
+  age: '',
+  idType: '',
+  idNumber: '',
+  domicile: ''
 })
 
 // 性别选择弹窗
 const showGenderPicker = ref(false)
 const genderOptions = ['男', '女', '其他']
+
+// 申请人类别选择弹窗
+const showApplicantTypePicker = ref(false)
+const applicantTypeOptions = ['自然人', '法人']
 
 // 地址选择弹窗
 const showAddressPicker = ref(false)
@@ -43,10 +59,16 @@ const selectGender = (gender: string) => {
   showGenderPicker.value = false
 }
 
+// 选择申请人类别
+const selectApplicantType = (type: string) => {
+  form.applicantType = type
+  showApplicantTypePicker.value = false
+}
+
 // 选择地址
 const selectAddress = () => {
   // 这里可以集成地址选择组件
-  uni.showToast({ title: '请选择家庭住址', icon: 'none' })
+  uni.showToast({ title: '请选择联系地址', icon: 'none' })
 }
 
 // 发送验证码
@@ -84,16 +106,46 @@ const startCountdown = () => {
 
 // 表单验证
 const validateForm = () => {
-  errors.value = { name: '', phone: '', code: '', password: '', confirmPassword: '' }
+  errors.value = { name: '', phone: '', code: '', password: '', confirmPassword: '', applicantType: '', birthDate: '', age: '', idType: '', idNumber: '', domicile: '' }
   let isValid = true
 
+  if (!form.applicantType) {
+    errors.value.applicantType = '请选择申请人类别'
+    isValid = false
+  }
+
   if (!form.name) {
-    errors.value.name = '请输入姓名'
+    errors.value.name = '请输入申请人姓名'
+    isValid = false
+  }
+
+  if (!form.birthDate) {
+    errors.value.birthDate = '请选择出生日期'
+    isValid = false
+  }
+
+  if (!form.age) {
+    errors.value.age = '请输入年纪'
+    isValid = false
+  }
+
+  if (!form.idType) {
+    errors.value.idType = '请选择证件类型'
+    isValid = false
+  }
+
+  if (!form.idNumber) {
+    errors.value.idNumber = '请输入证件号码'
+    isValid = false
+  }
+
+  if (!form.domicile) {
+    errors.value.domicile = '请输入户籍地'
     isValid = false
   }
 
   if (!form.phone) {
-    errors.value.phone = '请输入手机号'
+    errors.value.phone = '请输入联系电话'
     isValid = false
   } else if (!/^1[3-9]\d{9}$/.test(form.phone)) {
     errors.value.phone = '请输入正确的手机号'
@@ -189,12 +241,27 @@ const goToLogin = () => {
 
     <!-- 表单区域 -->
     <view class="form-section">
+      <!-- 申请人类别选择 -->
+      <view
+        class="input-container selector-container"
+        @click="showApplicantTypePicker = true"
+      >
+        <view class="selector-field">
+          <text class="selector-text">
+            {{ form.applicantType }}
+          </text>
+          <text class="selector-arrow">
+            ›
+          </text>
+        </view>
+      </view>
+
       <!-- 姓名输入框 -->
       <view class="input-container">
         <input
           v-model="form.name"
           type="text"
-          placeholder="请输入姓名"
+          placeholder="请输入申请人姓名"
           class="input-field"
           @focus="clearError('name')"
         >
@@ -215,28 +282,74 @@ const goToLogin = () => {
         </view>
       </view>
 
-      <!-- 家庭住址选择 -->
+      <!-- 出生日期 -->
+      <view class="input-container">
+        <input
+          v-model="form.birthDate"
+          type="text"
+          placeholder="请选择出生日期"
+          class="input-field"
+          @focus="clearError('birthDate')"
+        >
+      </view>
+
+      <!-- 年纪 -->
+      <view class="input-container">
+        <input
+          v-model="form.age"
+          type="number"
+          placeholder="请输入年纪"
+          class="input-field"
+          @focus="clearError('age')"
+        >
+      </view>
+
+      <!-- 证件类型 -->
+      <view class="input-container">
+        <input
+          v-model="form.idType"
+          type="text"
+          placeholder="请选择证件类型"
+          class="input-field"
+          @focus="clearError('idType')"
+        >
+      </view>
+
+      <!-- 证件号码 -->
+      <view class="input-container">
+        <input
+          v-model="form.idNumber"
+          type="text"
+          placeholder="请输入证件号码"
+          class="input-field"
+          @focus="clearError('idNumber')"
+        >
+      </view>
+
+      <!-- 联系地址选择 -->
       <view
         class="input-container selector-container"
-        @click="selectAddress"
       >
         <view class="selector-field">
-          <text
-            v-if="!form.address"
-            class="selector-text placeholder"
-          >
-            请选择家庭住址
-          </text>
-          <text
-            v-else
-            class="selector-text"
-          >
-            {{ form.address }}
-          </text>
-          <text class="selector-arrow">
-            ›
-          </text>
+          <input
+          v-model="form.address"
+          type="text"
+          placeholder="请输入联系地址"
+          class="input-field"
+          @focus="clearError('idType')"
+        >
         </view>
+      </view>
+
+      <!-- 户籍地 -->
+      <view class="input-container">
+        <input
+          v-model="form.domicile"
+          type="text"
+          placeholder="请输入户籍地"
+          class="input-field"
+          @focus="clearError('domicile')"
+        >
       </view>
 
       <!-- 手机号输入框 -->
@@ -244,7 +357,7 @@ const goToLogin = () => {
         <input
           v-model="form.phone"
           type="number"
-          placeholder="请输入手机号码"
+          placeholder="请输入联系电话"
           class="input-field"
           @focus="clearError('phone')"
         >
@@ -346,6 +459,40 @@ const goToLogin = () => {
         >
           去登录 ›
         </text>
+      </view>
+    </view>
+
+    <!-- 申请人类别选择弹窗 -->
+    <view
+      v-if="showApplicantTypePicker"
+      class="picker-overlay"
+      @click="showApplicantTypePicker = false"
+    >
+      <view
+        class="picker-container"
+        @click.stop
+      >
+        <view class="picker-header">
+          <text class="picker-title">
+            选择申请人类别
+          </text>
+          <text
+            class="picker-close"
+            @click="showApplicantTypePicker = false"
+          >
+            ×
+          </text>
+        </view>
+        <view class="picker-options">
+          <view 
+            v-for="type in applicantTypeOptions"
+            :key="type"
+            class="picker-option"
+            @click="selectApplicantType(type)"
+          >
+            <text>{{ type }}</text>
+          </view>
+        </view>
       </view>
     </view>
 
