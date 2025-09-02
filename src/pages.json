@@ -118,6 +118,12 @@
 			"style": {
 				"navigationBarTitleText": "忘记密码"
 			}
+		},
+		{
+			"path": "pages/sub-pages/reset-password/index",
+			"style": {
+				"navigationBarTitleText": "重置密码"
+			}
 		}
 	],
 	"globalStyle": {

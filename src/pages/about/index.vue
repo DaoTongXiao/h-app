@@ -26,7 +26,7 @@ const primaryActions = ref([
 const otherFunctions = ref([
   { text: '个人信息', icon: '/static/icons/my/2-1.png', path: '/pages/profile/info' },
   { text: '实名认证', icon: '/static/icons/my/2-2.png', path: '/pages/auth/index' },
-  { text: '修改密码', icon: '/static/icons/my/2-3.png', path: '/pages/profile/password' },
+  { text: '修改密码', icon: '/static/icons/my/2-3.png', path: '/pages/sub-pages/reset-password/index' },
   { text: '操作手册', icon: '/static/icons/my/2-4.png', path: '/pages/manual/index' },
   { text: '账号管理', icon: '/static/icons/my/2-5.png', path: '/pages/profile/account' }
 ])
@@ -40,11 +40,11 @@ const navigateTo = (url: string) => {
 
 // 功能点击事件
 const handleActionClick = (action: { text: string; path: string }) => {
-  uni.showToast({
-    title: `点击了 "${action.text}"`,
-    icon: 'none'
-  })
-  // navigateTo(action.path) // 在实际项目中取消此行注释
+  // uni.showToast({
+  //   title: `点击了 "${action.text}"`,
+  //   icon: 'none'
+  // })
+  navigateTo(action.path) // 在实际项目中取消此行注释
 }
 
 // 退出登录
