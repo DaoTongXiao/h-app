@@ -47,8 +47,8 @@ const banners = ref<Banner[]>([
 
 // 快捷入口数据
 const quickAccess = ref<QuickService[]>([
-  { id: '1', icon: '智', title: '智能咨询', color: '#3B82F6' },
-  { id: '2', icon: '政', title: '政策查询', color: '#F59E0B' }
+  { id: '1', icon: '热', title: '热点新闻', color: '#3B82F6' },
+  { id: '2', icon: '风', title: '风采浮山', color: '#F59E0B' }
 ])
 
 // 调解服务数据
@@ -62,8 +62,8 @@ const mediationServices = ref<ServiceItem[]>([
   },
   { 
     id: '2', 
-    title: '在线调解', 
-    subtitle: '支持在线调解', 
+    title: '心理服务申请', 
+    subtitle: '心理服务', 
     icon: '▶️',
     color: '#10B981'
   },
@@ -76,8 +76,14 @@ const mediationServices = ref<ServiceItem[]>([
   },
   { 
     id: '4', 
-    title: '法律合规申请', 
-    subtitle: '企业法律合规申请', 
+    title: '事件上报', 
+    subtitle: '网格员事件上报', 
+    icon: '🏢',
+    color: '#0D9488'
+  },{ 
+    id: '4', 
+    title: '留言板', 
+    subtitle: '留言板', 
     icon: '🏢',
     color: '#0D9488'
   }
@@ -151,6 +157,12 @@ const handleQuickAccess = (item: QuickService) => {
 	if(item.title == '在线调解'){
 		uni.navigateTo({
 			url:'/pages/sub-pages/online/online'
+		})
+		return
+	}
+  if(item.title == '留言板'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/leave-message/index'
 		})
 		return
 	}

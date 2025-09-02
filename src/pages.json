@@ -124,6 +124,12 @@
 			"style": {
 				"navigationBarTitleText": "重置密码"
 			}
+		},
+		{
+			"path": "pages/sub-pages/leave-message/index",
+			"style": {
+				"navigationBarTitleText": "留言板"
+			}
 		}
 	],
 	"globalStyle": {
