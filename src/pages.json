@@ -130,6 +130,24 @@
 			"style": {
 				"navigationBarTitleText": "留言板"
 			}
+		},
+		{
+			"path": "pages/sub-pages/report-event/index",
+			"style": {
+				"navigationBarTitleText": "事件上报"
+			}
+		},
+		{
+			"path": "pages/sub-pages/query-case/index",
+			"style": {
+				"navigationBarTitleText": "一码一案"
+			}
+		},
+		{
+			"path": "pages/sub-pages/psychological-service/index",
+			"style": {
+				"navigationBarTitleText": "心里咨询申请"
+			}
 		}
 	],
 	"globalStyle": {

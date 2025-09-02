@@ -81,7 +81,13 @@ const mediationServices = ref<ServiceItem[]>([
     icon: '🏢',
     color: '#0D9488'
   },{ 
-    id: '4', 
+    id: '5', 
+    title: '一案一码', 
+    subtitle: '一案一码', 
+    icon: '🏢',
+    color: '#0D9488'
+  },{ 
+    id: '6', 
     title: '留言板', 
     subtitle: '留言板', 
     icon: '🏢',
@@ -106,15 +112,15 @@ const tabBarList = ref([
 
 // 方法
 const handleQuickAccess = (item: QuickService) => {
-  if(item.title == '政策查询'){
+  if(item.title == '风采浮山'){
 	  uni.navigateTo({
 	  	url: '/pages/sub-pages/policy/index'
 	  })
 	  return
   }
-  if(item.title == '智能咨询'){
+  if(item.title == '热点新闻'){
 	  uni.navigateTo({
-	  	url: '/pages/sub-pages/chat/index'
+	  	url: '/pages/sub-pages/policy/index'
 	  })
 	  return
   }
@@ -127,6 +133,11 @@ const handleQuickAccess = (item: QuickService) => {
     if(item.title == '典型案例'){
         uni.navigateTo({
         url: '/pages/sub-pages/precedents/index'
+        })
+        return
+    } if(item.title == '心理服务申请'){
+        uni.navigateTo({
+        url: '/pages/sub-pages/psychological-service/index'
         })
         return
     } 
@@ -163,6 +174,16 @@ const handleQuickAccess = (item: QuickService) => {
   if(item.title == '留言板'){
 		uni.navigateTo({
 			url:'/pages/sub-pages/leave-message/index'
+		})
+		return
+	} if(item.title == '一案一码'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/query-case/index'
+		})
+		return
+	}  if(item.title == '事件上报'){
+		uni.navigateTo({
+			url:'/pages/sub-pages/report-event/index'
 		})
 		return
 	}
