@@ -180,14 +180,14 @@ const handleRegisterClick = () => {
     <view class="title-section">
       <view class="title-container">
         <text class="main-title">
-          新疆生产建设兵团
+          矛盾纠纷化解系统
         </text>
         <view class="welcome-badge">
           欢迎登录
         </view>
       </view>
       <text class="sub-title">
-        第五师双河市
+        <!--第五师双河市-->
       </text>
     </view>
 

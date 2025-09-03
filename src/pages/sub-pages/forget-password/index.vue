@@ -2,10 +2,10 @@
   <view class="container">
     <view class="title-wrapper">
       <view class="main-title">
-        <text>新疆生产建设兵团</text>
+        <text>矛盾纠纷化解系统</text>
         <text class="tag">忘记密码</text>
       </view>
-      <view class="sub-title">第五师双河市</view>
+      <view class="sub-title"><!--第五师双河市--></view>
     </view>
 
     <view class="form-wrapper">
