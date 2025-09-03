@@ -148,6 +148,12 @@
 			"style": {
 				"navigationBarTitleText": "心里咨询申请"
 			}
+		},
+		{
+			"path": "pages/sub-pages/my-mediations/index",
+			"style": {
+				"navigationBarTitleText": "我的调解"
+			}
 		}
 	],
 	"globalStyle": {

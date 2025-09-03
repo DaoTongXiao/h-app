@@ -16,10 +16,10 @@ const user = ref({
 
 // 主要功能入口数据
 const primaryActions = ref([
-  { text: '我的调解', icon: '/static/icons/my/1-1.png', path: '/pages/mediation/list' },
-  { text: '我的咨询', icon: '/static/icons/my/1-2.png', path: '/pages/consult/list' },
-  { text: '法律援助', icon: '/static/icons/my/1-3.png', path: '/pages/aid/list' },
-  { text: '服务评价', icon: '/static/icons/my/1-4.png', path: '/pages/evaluation/list' }
+  { text: '我的调解', icon: '/static/icons/my/1-1.png', path: '/pages/sub-pages/my-mediations/index' },
+  { text: '我的咨询', icon: '/static/icons/my/1-2.png', path: '/pages/sub-pages/my-mediations/index' },
+  { text: '法律援助', icon: '/static/icons/my/1-3.png', path: '/pages/sub-pages/my-mediations/index' },
+  { text: '服务评价', icon: '/static/icons/my/1-4.png', path: '/pages/sub-pages/my-mediations/index' }
 ])
 
 // 其他功能数据
