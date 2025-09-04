@@ -9,18 +9,18 @@ const activeTab = ref(0)
 
 // 模拟机构数据
 const organizationList = ref<Organization[]>([
-  { id: 1, name: '新疆生产建设兵团第五师中心团场八十三团一连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 2, name: '新疆生产建设兵团第五师八十一团七连调委会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 3, name: '第五师八十一团劳动争议人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' },
-  { id: 4, name: '新疆生产建设兵团第五师中心团场八十三团九连人民调解委员会', phone: '13000000000', memberCount: 4, address: '新疆博乐第五师八十三团中心团场一连' }
+  { id: 1, name: '县区人民调解委员会', phone: '13000000000', memberCount: 4, address: '山西省临汾市xxx县11号xx家属楼' },
+  { id: 2, name: 'xx乡镇调委会', phone: '13000000000', memberCount: 4, address: '山西省临汾市xxx县xx镇调解中心' },
+  { id: 3, name: 'xx镇人民调解委员会', phone: '13000000000', memberCount: 4, address: '山西省临汾市xxx县xx镇西乡街道22号' },
+  { id: 4, name: 'xxx村调解委员会', phone: '13000000000', memberCount: 4, address: '山西省临汾市xxx县xx镇新兴村' }
 ])
 
 // 模拟专家数据 (需要处理成 uni-indexed-list 的格式)
 const expertList: Expert[] = [
-  { id: 101, name: '韦佳玉', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 102, name: '马永盛', avatar: '/static/avatar-male-2.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 103, name: '席婉红', avatar: '/static/avatar-female-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
-  { id: 104, name: '张嘉伟', avatar: '/static/avatar-male-1.png', casesMediated: 123, organization: '新疆生产建设兵团第五师中心团...', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' }
+  { id: 101, name: '韦佳玉', avatar: '/static/icons/my/tuxiang.png', casesMediated: 123, organization: '县区调解委员会', specialty: '生产经营、纠纷赔偿纠...' },
+  { id: 102, name: '马永盛', avatar: '/static/icons/my/tuxiang.png', casesMediated: 123, organization: '省信息咨询中信', specialty: '继承纠纷、纠纷赔偿、生产经营、纠...' },
+  { id: 103, name: '席婉红', avatar: '/static/icons/my/tuxiang.png', casesMediated: 123, organization: '镇中心矛调咨询中信', specialty: '继承纠纷、生产经营、纠纷赔偿纠...' },
+  { id: 104, name: '张嘉伟', avatar: '/static/icons/my/tuxiang.png', casesMediated: 123, organization: '机关单位调解委员会', specialty: '生产经营、纠纷赔偿、继承纠纷、纠...' }
 ]
 
 
@@ -70,6 +70,7 @@ const switchTab = (index: number) => {
         scroll-y
         class="list-scroll"
       >
+      
         <OrganizationItem
           v-for="org in organizationList"
           :key="org.id"
