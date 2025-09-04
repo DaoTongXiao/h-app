@@ -260,13 +260,6 @@ onMounted(() => {
             </view>
             <text class="arrow" />
           </view>
-          
-          <!-- 页面指示器 -->
-          <view class="indicator">
-            <view class="dot active" />
-            <view class="dot" />
-            <view class="dot" />
-          </view>
         </view>
       </view>
 
