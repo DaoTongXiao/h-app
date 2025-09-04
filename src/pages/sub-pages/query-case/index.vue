@@ -202,7 +202,7 @@ const handleGoBack = () => {
   }
   .form-card {
     background-color: #fff;
-    margin: -80rpx 30rpx 0;
+    margin: -30rpx 30rpx 0;
     padding: 40rpx;
     border-radius: 16rpx;
     box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
