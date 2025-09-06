@@ -17,7 +17,7 @@ const isFocus = ref(false)
 
 // 验证码倒计时
 const countdown = ref(0)
-const timer = ref<number | null>(null)
+const timer = ref<NodeJS.Timeout | null>(null)
 
 // 加载状态
 const isLoading = ref(false)
@@ -212,6 +212,7 @@ const handleRegisterClick = () => {
           </text>
         </view>
       </view>
+      <text v-if="errors.phone" class="error-message">{{ errors.phone }}</text>
 
       <!-- 密码输入框 -->
       <view class="input-container">
@@ -228,6 +229,7 @@ const handleRegisterClick = () => {
           </text>
         </view>
       </view>
+      <text v-if="errors.password" class="error-message">{{ errors.password }}</text>
 
       <!-- 验证码输入框 -->
       <view class="input-container">
@@ -238,7 +240,15 @@ const handleRegisterClick = () => {
           class="input-field"
           @focus="clearError('code')"
         >
+        <button
+          class="send-code-btn"
+          :disabled="countdown > 0 || isSendingCode"
+          @click="sendCode"
+        >
+          {{ countdown > 0 ? `${countdown}s后重发` : '发送验证码' }}
+        </button>
       </view>
+      <text v-if="errors.code" class="error-message">{{ errors.code }}</text>
 
       <!-- 协议勾选 -->
       <view class="agreement-section">
@@ -357,60 +367,89 @@ const handleRegisterClick = () => {
 .input-container {
   position: relative;
   margin-bottom: 30rpx;
-  
+  display: flex; /* 使用 flex 布局 */
+  align-items: center; /* 垂直居中 */
+  background: #fff; /* 统一背景色 */
+  border-radius: 16rpx; /* 统一圆角 */
+  box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.06); /* 统一阴影 */
+  height: 100rpx; /* 统一高度 */
+
   .input-field {
-    width: 100%;
-    height: 100rpx;
-    background: #fff;
+    flex: 1; /* 占据剩余空间 */
+    height: 100%; /* 填充父容器高度 */
+    background: transparent; /* 透明背景 */
     border-radius: 16rpx;
     padding: 0 30rpx;
     font-size: 32rpx;
     color: #333;
-    box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.06);
-    border: none;
-    
+    border: none; /* 移除边框 */
+
     &::placeholder {
       color: #ccc;
     }
-    
+
     &.password-field {
-      padding-right: 80rpx;
+      padding-right: 80rpx; /* 为密码切换按钮留出空间 */
     }
   }
-  
+
   .clear-btn {
-    position: absolute;
-    right: 30rpx;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static; /* 移除绝对定位 */
+    transform: none; /* 移除 transform */
     width: 40rpx;
     height: 40rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    margin-right: 20rpx; /* 调整间距 */
+
     .clear-icon {
       font-size: 32rpx;
       color: #ccc;
     }
   }
-  
+
   .password-toggle {
-    position: absolute;
-    right: 30rpx;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static; /* 移除绝对定位 */
+    transform: none; /* 移除 transform */
     width: 40rpx;
     height: 40rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    margin-right: 20rpx; /* 调整间距 */
+
     .eye-icon {
       font-size: 32rpx;
       color: #ccc;
     }
   }
+
+  .send-code-btn {
+    position: static; /* 移除绝对定位 */
+    transform: none; /* 移除 transform */
+    background: #4A90E2;
+    color: #fff;
+    font-size: 26rpx;
+    padding: 10rpx 20rpx;
+    border-radius: 10rpx;
+    border: none;
+    line-height: 1;
+    margin-right: 20rpx; /* 调整间距 */
+
+    &:disabled {
+      background: #ccc;
+    }
+  }
+}
+
+.error-message {
+  color: #fa5151;
+  font-size: 26rpx;
+  margin-top: -20rpx;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+  display: block;
 }
 
 /* 协议区域 */
